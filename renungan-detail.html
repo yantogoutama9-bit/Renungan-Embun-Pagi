@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Detail Renungan</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Detail Renungan</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -24,7 +24,9 @@
   </div>
 </header>
 
-<div class="container" id="content"></div>
+<div class="container">
+  <div id="detail"></div>
+</div>
 
 <footer class="footer">
   © 2026 Pertumbuhan Iman Kristen
@@ -35,16 +37,23 @@ fetch("data/renungan.json")
 .then(res => res.json())
 .then(data => {
 
-  const item = data[0];
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
 
-  document.getElementById("content").innerHTML = `
-    <div class="card">
-      <button onclick="history.back()">← Kembali</button>
-      <h2>${item.judul}</h2>
-      <p><em>${item.tanggal}</em></p>
-      <p>${item.isi.replace(/\n/g,"<br><br>")}</p>
-    </div>
-  `;
+  const item = data.find(r => r.id === id);
+
+  if(item) {
+    document.getElementById("detail").innerHTML = `
+      <div class="card">
+        <h2>${item.judul}</h2>
+        <small>${item.tanggal}</small>
+        <p>${item.isi.replace(/\\n/g, "<br><br>")}</p>
+      </div>
+    `;
+  } else {
+    document.getElementById("detail").innerHTML = "<p>Renungan tidak ditemukan.</p>";
+  }
+
 });
 </script>
 
