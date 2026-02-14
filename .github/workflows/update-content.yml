@@ -23,8 +23,10 @@ jobs:
               "id": 1,
               "judul": "Renungan $TODAY",
               "tanggal": "$TODAY",
-              "ringkasan": "Refleksi iman yang relevan untuk hari ini.",
-              "isi": "Iman yang dewasa dibangun melalui konsistensi, bukan emosi sesaat.\n\nDisiplin rohani seperti doa dan pembacaan Firman membentuk karakter secara bertahap.\n\nSetiap keputusan kecil yang setia akan membentuk arah hidup dalam jangka panjang.\n\nPertumbuhan sejati terjadi ketika iman diterapkan dalam tindakan nyata setiap hari."
+              "ringkasan": "Refleksi iman dan lagu pendukung hari ini.",
+              "lagu_judul": "Bapa Engkau Sungguh Baik",
+              "lagu_link": "https://www.youtube.com/results?search_query=Bapa+Engkau+Sungguh+Baik",
+              "isi": "Iman yang dewasa dibangun melalui konsistensi.\n\nDoa, pembacaan Firman, dan refleksi pribadi membentuk karakter secara bertahap.\n\nMusik rohani membantu mengarahkan fokus hati pada kebenaran yang tetap.\n\nPertumbuhan sejati terlihat dari keputusan kecil yang setia setiap hari."
             }
           ]
           EOF
@@ -39,19 +41,21 @@ jobs:
             [
               {
                 "id": 1,
-                "judul": "Kesaksian Transformasi Hidup - $TODAY",
-                "ringkasan": "Proses perubahan karakter melalui perjalanan iman yang konsisten.",
-                "isi": "Perubahan hidup jarang terjadi secara instan.\n\nMelalui tekanan, kegagalan, dan refleksi mendalam, seseorang belajar memahami makna anugerah dan tanggung jawab pribadi.\n\nKomunitas yang sehat, doa yang konsisten, serta keberanian menghadapi kenyataan menjadi faktor penting dalam transformasi.\n\nPertumbuhan rohani bukan peristiwa tunggal, melainkan proses jangka panjang yang terlihat dari perubahan pola pikir dan tindakan sehari-hari."
+                "judul": "Kesaksian Transformasi - $TODAY",
+                "ringkasan": "Perjalanan perubahan melalui proses yang nyata.",
+                "lagu_judul": "Ku Percaya JanjiMu",
+                "lagu_link": "https://www.youtube.com/results?search_query=Ku+Percaya+JanjiMu",
+                "isi": "Transformasi hidup jarang terjadi secara instan.\n\nTekanan dan kegagalan sering menjadi alat pembentukan karakter.\n\nKomunitas dan konsistensi doa memberi stabilitas dalam proses.\n\nPerubahan sejati terlihat dari pola pikir dan tindakan yang berbeda dari masa lalu."
               }
             ]
             EOF
           fi
 
-      - name: Commit and Push Changes
+      - name: Commit and Push
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add data/renungan.json
           git add data/kesaksian.json
-          git commit -m "Auto update renungan & kesaksian" || echo "No changes"
+          git commit -m "Auto update content with song link" || echo "No changes"
           git push
