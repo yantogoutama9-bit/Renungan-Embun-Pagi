@@ -1,3 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Renungan Harian</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container header-flex">
+    <div class="logo-area">
+      <img src="logo.png" class="logo">
+      <div>
+        <h1>Pertumbuhan Iman Kristen</h1>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="renungan.html">Renungan</a>
+      <a href="kesaksian.html">Kesaksian</a>
+      <a href="lagu.html">Lagu</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <h2 class="section-title">Renungan Terbaru</h2>
+  <div id="list"></div>
+</div>
+
+<footer class="footer">
+  © 2026 Pertumbuhan Iman Kristen
+</footer>
+
+<script>
 fetch("data/renungan.json")
 .then(res => res.json())
 .then(data => {
@@ -8,6 +44,7 @@ fetch("data/renungan.json")
     html += `
       <div class="card">
         <h3>${item.judul}</h3>
+        <small>${item.tanggal}</small>
         <p>${item.isi.substring(0,120)}...</p>
         <a href="renungan-detail.html?id=${item.id}">
           <button>Baca Selengkapnya</button>
@@ -18,3 +55,7 @@ fetch("data/renungan.json")
 
   document.getElementById("list").innerHTML = html;
 });
+</script>
+
+</body>
+</html>
