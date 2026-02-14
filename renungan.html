@@ -1,60 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Renungan</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header class="header">
-  <div class="container header-flex">
-    <div class="logo-area">
-      <img src="logo.png" class="logo">
-      <div>
-        <h1>Pertumbuhan Iman Kristen</h1>
-        <p class="tagline">Membangun Iman yang Dewasa dan Konsisten</p>
-      </div>
-    </div>
-    <nav>
-      <a href="index.html">Beranda</a>
-      <a href="renungan.html">Renungan</a>
-      <a href="kesaksian.html">Kesaksian</a>
-      <a href="lagu.html">Lagu</a>
-    </nav>
-  </div>
-</header>
-
-<div class="container" id="list"></div>
-
-<footer class="footer">
-  © 2026 Pertumbuhan Iman Kristen
-</footer>
-
-<script>
 fetch("data/renungan.json")
 .then(res => res.json())
 .then(data => {
 
-  if (!data.length) {
-    document.getElementById("list").innerHTML =
-      "<div class='card'>Renungan belum tersedia.</div>";
-    return;
-  }
+  let html = "";
 
-  const item = data[0];
+  data.forEach(item => {
+    html += `
+      <div class="card">
+        <h3>${item.judul}</h3>
+        <p>${item.isi.substring(0,120)}...</p>
+        <a href="renungan-detail.html?id=${item.id}">
+          <button>Baca Selengkapnya</button>
+        </a>
+      </div>
+    `;
+  });
 
-  document.getElementById("list").innerHTML = `
-    <div class="card">
-      <h3>${item.judul}</h3>
-      <p>${item.ringkasan}</p>
-      <a href="renungan-detail.html">
-        <button>Baca Selengkapnya</button>
-      </a>
-    </div>
-  `;
+  document.getElementById("list").innerHTML = html;
 });
-</script>
-
-</body>
-</html>
