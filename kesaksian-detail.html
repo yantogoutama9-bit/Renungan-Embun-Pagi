@@ -42,11 +42,6 @@ fetch("data/kesaksian.json")
       <button onclick="history.back()">← Kembali</button>
       <h2>${item.judul}</h2>
       <p>${item.isi.replace(/\n/g,"<br><br>")}</p>
-      <hr>
-      <p><strong>Lagu:</strong> ${item.lagu_judul}</p>
-      <a href="${item.lagu_link}" target="_blank">
-        <button>Dengarkan Lagu</button>
-      </a>
     </div>
   `;
 });
