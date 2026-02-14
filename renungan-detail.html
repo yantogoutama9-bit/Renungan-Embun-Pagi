@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Detail Renungan</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <h1>Pertumbuhan Iman Kristen</h1>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">Beranda</a>
+  <a href="renungan.html">Renungan Harian</a>
+  <a href="kesaksian.html">Kesaksian</a>
+  <a href="lagu.html">Lagu Rohani</a>
+</nav>
+
+<main class="container">
+  <div id="detail">Memuat...</div>
+</main>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+fetch("data/renungan.json")
+.then(res => res.json())
+.then(data => {
+  const item = data.find(x => x.id == id);
+  if(item){
+    document.getElementById("detail").innerHTML = `
+      <div class="card">
+        <h2>${item.judul}</h2>
+        <small>${item.tanggal}</small>
+        <p>${item.isi}</p>
+        <br>
+        <a class="btn" href="renungan.html">Kembali</a>
+      </div>
+    `;
+  } else {
+    document.getElementById("detail").innerHTML = "Artikel tidak ditemukan.";
+  }
+});
+</script>
+
+</body>
+</html>
