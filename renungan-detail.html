@@ -43,11 +43,6 @@ fetch("data/renungan.json")
       <h2>${item.judul}</h2>
       <p><em>${item.tanggal}</em></p>
       <p>${item.isi.replace(/\n/g,"<br><br>")}</p>
-      <hr>
-      <p><strong>Lagu:</strong> ${item.lagu_judul}</p>
-      <a href="${item.lagu_link}" target="_blank">
-        <button>Dengarkan Lagu</button>
-      </a>
     </div>
   `;
 });
