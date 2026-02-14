@@ -8,23 +8,38 @@
 <body>
 
 <h2>Renungan Harian</h2>
-<div id="renungan"></div>
+<div id="renungan">Memuat...</div>
 
 <script>
-fetch("https://api.rss2json.com/v1/api.json?rss_url=https://renunganharian.net/feed/")
+const url = "https://api.allorigins.win/get?url=" + 
+encodeURIComponent("https://renunganharian.net/feed/");
+
+fetch(url)
 .then(res => res.json())
 .then(data => {
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(data.contents, "text/xml");
+  const items = xml.querySelectorAll("item");
+
   let output = "";
-  data.items.slice(0,5).forEach(item => {
-    output += `
-      <div class="card">
-        <h3>${item.title}</h3>
-        <p>${item.pubDate}</p>
-        <a href="${item.link}" target="_blank">Baca Selengkapnya</a>
-      </div>
-    `;
+  items.forEach((item, index) => {
+    if(index < 5){
+      output += `
+        <div class="card">
+          <h3>${item.querySelector("title").textContent}</h3>
+          <a href="${item.querySelector("link").textContent}" target="_blank">
+          Baca Selengkapnya
+          </a>
+        </div>
+      `;
+    }
   });
+
   document.getElementById("renungan").innerHTML = output;
+})
+.catch(err => {
+  document.getElementById("renungan").innerHTML = 
+  "Gagal memuat renungan. Coba refresh.";
 });
 </script>
 
