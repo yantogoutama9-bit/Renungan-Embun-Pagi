@@ -7,8 +7,21 @@
 </head>
 <body>
 
-<h2>Kesaksian Iman</h2>
-<div id="list"></div>
+<header class="header">
+  <h1>Pertumbuhan Iman Kristen</h1>
+  <p class="tagline">Kesaksian Iman</p>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">Beranda</a>
+  <a href="renungan.html">Renungan Harian</a>
+  <a href="kesaksian.html">Kesaksian</a>
+  <a href="lagu.html">Lagu Rohani</a>
+</nav>
+
+<main class="container">
+  <div id="list">Memuat...</div>
+</main>
 
 <script>
 fetch("data/kesaksian.json")
@@ -20,7 +33,7 @@ fetch("data/kesaksian.json")
       <div class="card">
         <h3>${item.judul}</h3>
         <p>${item.ringkasan}</p>
-        <a href="kesaksian-detail.html?id=${item.id}">
+        <a class="btn" href="kesaksian-detail.html?id=${item.id}">
         Baca Selengkapnya
         </a>
       </div>
