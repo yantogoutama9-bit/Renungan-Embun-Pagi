@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Kesaksian</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Kesaksian Iman</h2>
+<div id="kesaksian"></div>
+
+<script>
+fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.sabda.org/rss")
+.then(res => res.json())
+.then(data => {
+  let output = "";
+  data.items.slice(0,5).forEach(item => {
+    output += `
+      <div class="card">
+        <h3>${item.title}</h3>
+        <a href="${item.link}" target="_blank">Baca Kesaksian</a>
+      </div>
+    `;
+  });
+  document.getElementById("kesaksian").innerHTML = output;
+});
+</script>
+
+</body>
+</html>

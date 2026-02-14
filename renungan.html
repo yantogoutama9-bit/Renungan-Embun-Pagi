@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Renungan Harian</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Renungan Harian</h2>
+<div id="renungan"></div>
+
+<script>
+fetch("https://api.rss2json.com/v1/api.json?rss_url=https://renunganharian.net/feed/")
+.then(res => res.json())
+.then(data => {
+  let output = "";
+  data.items.slice(0,5).forEach(item => {
+    output += `
+      <div class="card">
+        <h3>${item.title}</h3>
+        <p>${item.pubDate}</p>
+        <a href="${item.link}" target="_blank">Baca Selengkapnya</a>
+      </div>
+    `;
+  });
+  document.getElementById("renungan").innerHTML = output;
+});
+</script>
+
+</body>
+</html>
