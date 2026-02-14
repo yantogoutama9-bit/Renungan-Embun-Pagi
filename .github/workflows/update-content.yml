@@ -1,8 +1,8 @@
-name: Update Renungan Harian
+name: Auto Update Portal Content
 
 on:
   schedule:
-    - cron: '0 22 * * *'   # Jam 05.00 WIB tiap hari
+    - cron: '0 22 * * *'   # 05.00 WIB setiap hari
   workflow_dispatch:
 
 jobs:
@@ -10,28 +10,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Generate renungan baru
+      - name: Update Renungan Harian
         run: |
           TODAY=$(date +"%d %B %Y")
+
           cat > data/renungan.json <<EOF
           [
             {
               "id": 1,
               "judul": "Renungan $TODAY",
               "tanggal": "$TODAY",
-              "ringkasan": "Iman bertumbuh melalui konsistensi dan refleksi Firman setiap hari.",
-              "isi": "Pertumbuhan iman bukan hasil emosi sesaat.\n\nIa dibangun melalui disiplin rohani: doa, pembacaan Firman, dan ketaatan.\n\nSetiap hari adalah kesempatan untuk memperdalam relasi dengan Tuhan melalui keputusan-keputusan kecil yang konsisten."
+              "ringkasan": "Refleksi iman yang relevan untuk hari ini.",
+              "isi": "Iman yang dewasa dibangun melalui konsistensi, bukan emosi sesaat.\n\nDisiplin rohani seperti doa dan pembacaan Firman membentuk karakter secara bertahap.\n\nSetiap keputusan kecil yang setia akan membentuk arah hidup dalam jangka panjang.\n\nPertumbuhan sejati terjadi ketika iman diterapkan dalam tindakan nyata setiap hari."
             }
           ]
           EOF
 
-      - name: Commit & Push
+      - name: Update Kesaksian Mingguan
+        run: |
+          DAY=$(date +%u)
+          if [ "$DAY" -eq 1 ]; then
+            TODAY=$(date +"%d %B %Y")
+
+            cat > data/kesaksian.json <<EOF
+            [
+              {
+                "id": 1,
+                "judul": "Kesaksian Transformasi Hidup - $TODAY",
+                "ringkasan": "Proses perubahan karakter melalui perjalanan iman yang konsisten.",
+                "isi": "Perubahan hidup jarang terjadi secara instan.\n\nMelalui tekanan, kegagalan, dan refleksi mendalam, seseorang belajar memahami makna anugerah dan tanggung jawab pribadi.\n\nKomunitas yang sehat, doa yang konsisten, serta keberanian menghadapi kenyataan menjadi faktor penting dalam transformasi.\n\nPertumbuhan rohani bukan peristiwa tunggal, melainkan proses jangka panjang yang terlihat dari perubahan pola pikir dan tindakan sehari-hari."
+              }
+            ]
+            EOF
+          fi
+
+      - name: Commit and Push Changes
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add data/renungan.json
-          git commit -m "Auto update renungan harian"
+          git add data/kesaksian.json
+          git commit -m "Auto update renungan & kesaksian" || echo "No changes"
           git push
