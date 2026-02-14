@@ -1,46 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Detail Kesaksian</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Detail Kesaksian</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="header">
-  <h1>Pertumbuhan Iman Kristen</h1>
+  <div class="container header-flex">
+    <div class="logo-area">
+      <img src="logo.png" alt="Logo" class="logo">
+      <div>
+        <h1>Pertumbuhan Iman Kristen</h1>
+        <p class="tagline">Membangun Iman yang Dewasa dan Konsisten</p>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="renungan.html">Renungan</a>
+      <a href="kesaksian.html">Kesaksian</a>
+    </nav>
+  </div>
 </header>
 
-<nav class="navbar">
-  <a href="index.html">Beranda</a>
-  <a href="renungan.html">Renungan Harian</a>
-  <a href="kesaksian.html">Kesaksian</a>
-  <a href="lagu.html">Lagu Rohani</a>
-</nav>
+<div class="container" id="content"></div>
 
-<main class="container">
-  <div id="detail">Memuat...</div>
-</main>
+<footer class="footer">
+  © 2026 Pertumbuhan Iman Kristen
+</footer>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-
 fetch("data/kesaksian.json")
-.then(res => res.json())
-.then(data => {
-  const item = data.find(x => x.id == id);
-  if(item){
-    document.getElementById("detail").innerHTML = `
+  .then(res => res.json())
+  .then(data => {
+    const item = data[0];
+
+    document.getElementById("content").innerHTML = `
       <div class="card">
         <h2>${item.judul}</h2>
-        <p>${item.isi}</p>
-        <br>
-        <a class="btn" href="kesaksian.html">Kembali</a>
+        <p>${item.isi.replace(/\n/g, "<br><br>")}</p>
+        <hr>
+        <p><strong>Lagu Refleksi:</strong> ${item.lagu_judul}</p>
+        <a href="${item.lagu_link}" target="_blank">
+          <button>Dengarkan Lagu</button>
+        </a>
       </div>
     `;
-  }
-});
+  });
 </script>
 
 </body>
