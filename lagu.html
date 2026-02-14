@@ -1,34 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Lagu Rohani</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Lagu Rohani</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="header">
-  <h1>Pertumbuhan Iman Kristen</h1>
-  <p class="tagline">Lagu Rohani</p>
+  <div class="container header-flex">
+    <div class="logo-area">
+      <img src="logo.png" alt="Logo" class="logo">
+      <div>
+        <h1>Pertumbuhan Iman Kristen</h1>
+        <p class="tagline">Membangun Iman yang Dewasa dan Konsisten</p>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="renungan.html">Renungan</a>
+      <a href="kesaksian.html">Kesaksian</a>
+      <a href="lagu.html">Lagu</a>
+    </nav>
+  </div>
 </header>
 
-<nav class="navbar">
-  <a href="index.html">Beranda</a>
-  <a href="renungan.html">Renungan Harian</a>
-  <a href="kesaksian.html">Kesaksian</a>
-  <a href="lagu.html">Lagu Rohani</a>
-</nav>
+<div class="container" id="content"></div>
 
-<main class="container">
+<footer class="footer">
+  © 2026 Pertumbuhan Iman Kristen
+</footer>
 
-<div class="card">
-<h3>Hidupku Adalah Penyembahan</h3>
-<a class="btn" href="https://www.youtube.com/results?search_query=Hidupku+Adalah+Penyembahan" target="_blank">
-Tonton di YouTube
-</a>
-</div>
+<script>
+Promise.all([
+  fetch("data/renungan.json").then(res => res.json()),
+  fetch("data/kesaksian.json").then(res => res.json())
+]).then(([renungan, kesaksian]) => {
 
-</main>
+  const r = renungan[0];
+  const k = kesaksian[0];
+
+  document.getElementById("content").innerHTML = `
+    <h2 class="section-title">Lagu Hari Ini</h2>
+
+    <div class="card">
+      <h3>Dari Renungan</h3>
+      <p><strong>${r.lagu_judul}</strong></p>
+      <a href="${r.lagu_link}" target="_blank">
+        <button>Dengarkan</button>
+      </a>
+    </div>
+
+    <div class="card">
+      <h3>Dari Kesaksian</h3>
+      <p><strong>${k.lagu_judul}</strong></p>
+      <a href="${k.lagu_link}" target="_blank">
+        <button>Dengarkan</button>
+      </a>
+    </div>
+  `;
+});
+</script>
 
 </body>
 </html>
