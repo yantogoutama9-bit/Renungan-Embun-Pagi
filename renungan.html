@@ -1,5 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Renungan Harian</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
 <h2>Renungan Harian</h2>
-<div id="renungan">Memuat...</div>
+<div id="list"></div>
 
 <script>
 fetch("data/renungan.json")
@@ -10,14 +19,16 @@ fetch("data/renungan.json")
     output += `
       <div class="card">
         <h3>${item.judul}</h3>
-        <small>${item.tanggal}</small>
-        <p>${item.isi}</p>
+        <p>${item.ringkasan}</p>
+        <a href="renungan-detail.html?id=${item.id}">
+        Baca Selengkapnya
+        </a>
       </div>
     `;
   });
-  document.getElementById("renungan").innerHTML = output;
-})
-.catch(() => {
-  document.getElementById("renungan").innerHTML = "Gagal memuat konten.";
+  document.getElementById("list").innerHTML = output;
 });
 </script>
+
+</body>
+</html>
