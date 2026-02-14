@@ -1,23 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Detail Kesaksian</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container header-flex">
+    <div class="logo-area">
+      <img src="logo.png" class="logo">
+      <div>
+        <h1>Pertumbuhan Iman Kristen</h1>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="renungan.html">Renungan</a>
+      <a href="kesaksian.html">Kesaksian</a>
+      <a href="lagu.html">Lagu</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container" id="content"></div>
+
+<footer class="footer">
+  © 2026 Pertumbuhan Iman Kristen
+</footer>
+
 <script>
 fetch("data/kesaksian.json")
-  .then(res => res.json())
-  .then(data => {
-    const item = data[0];
+.then(res => res.json())
+.then(data => {
 
-    const laguLink = item.lagu_link.startsWith("http")
-      ? item.lagu_link
-      : "https://" + item.lagu_link;
+  const item = data[0];
 
-    document.getElementById("content").innerHTML = `
-      <div class="card">
-        <h2>${item.judul}</h2>
-        <p>${item.isi.replace(/\n/g, "<br><br>")}</p>
-        <hr>
-        <p><strong>Lagu Refleksi:</strong> ${item.lagu_judul}</p>
-        <a href="${laguLink}" target="_blank" rel="noopener noreferrer">
-          <button>Dengarkan Lagu</button>
-        </a>
-      </div>
-    `;
-  });
+  document.getElementById("content").innerHTML = `
+    <div class="card">
+      <button onclick="history.back()">← Kembali</button>
+      <h2>${item.judul}</h2>
+      <p>${item.isi.replace(/\n/g,"<br><br>")}</p>
+      <hr>
+      <p><strong>Lagu:</strong> ${item.lagu_judul}</p>
+      <a href="${item.lagu_link}" target="_blank">
+        <button>Dengarkan Lagu</button>
+      </a>
+    </div>
+  `;
+});
 </script>
+
+</body>
+</html>
