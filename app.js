@@ -1,6 +1,6 @@
 // Ganti dengan Supabase lo
-const supabaseUrl = "https://YOUR_SUPABASE_URL";
-const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
+const supabaseUrl = "https://btzffoirbqazffbgmsnh.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0emZmb2lyYnFhemZmYmdtc25oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwMDEwNTYsImV4cCI6MjA4NjU3NzA1Nn0.ban0dPbvGNDUJTJRwAp-EhlzXh3Uy_4dH4A43hw8Qbg";
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 async function getArticles() {
@@ -36,3 +36,4 @@ if ('serviceWorker' in navigator) {
     .then(() => console.log('Service Worker terdaftar'))
     .catch(err => console.log('Error SW:', err));
 }
+
