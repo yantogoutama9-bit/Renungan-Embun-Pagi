@@ -1,61 +1,111 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f6f8;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f2f4f8;
+  color: #333;
+  line-height: 1.7;
+}
+
+.container {
+  width: 92%;
+  max-width: 1100px;
+  margin: auto;
 }
 
 .header {
-  background: #ffffff;
-  padding: 20px 40px;
-  border-bottom: 1px solid #ddd;
+  background: #1f3c88;
+  color: #fff;
+  padding: 18px 0;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  width: 60px;
+  height: auto;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 .tagline {
-  margin: 5px 0 0;
-  color: #666;
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.85;
 }
 
-.navbar {
-  background: #ffffff;
-  padding: 15px 40px;
-  border-bottom: 2px solid #eee;
-}
-
-.navbar a {
-  margin-right: 30px;
+nav a {
+  color: white;
   text-decoration: none;
-  font-weight: bold;
-  color: #000;
-  font-size: 18px;
+  margin-left: 25px;
+  font-weight: 600;
+  font-size: 14px;
 }
 
-.navbar a:hover {
-  color: #2e7d32;
+nav a:hover {
+  opacity: 0.8;
 }
 
-.container {
-  padding: 40px;
+.section-title {
+  margin-top: 40px;
+  font-size: 24px;
+  border-left: 4px solid #1f3c88;
+  padding-left: 12px;
 }
 
 .card {
-  background: white;
+  background: #ffffff;
   padding: 25px;
-  margin-bottom: 25px;
-  border-radius: 8px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  margin: 25px 0;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease;
 }
 
-.btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 14px;
-  background: #2e7d32;
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+button {
+  background: #1f3c88;
   color: white;
-  text-decoration: none;
-  border-radius: 5px;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  background: #162e66;
+}
+
+.footer {
+  background: #1f3c88;
+  color: white;
+  text-align: center;
+  padding: 18px;
+  margin-top: 50px;
+  font-size: 14px;
 }
