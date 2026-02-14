@@ -1,45 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Kesaksian</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Kesaksian</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="header">
-  <h1>Pertumbuhan Iman Kristen</h1>
-  <p class="tagline">Kesaksian Iman</p>
+  <div class="container header-flex">
+    <div class="logo-area">
+      <img src="logo.png" class="logo">
+      <div>
+        <h1>Pertumbuhan Iman Kristen</h1>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="renungan.html">Renungan</a>
+      <a href="kesaksian.html">Kesaksian</a>
+      <a href="lagu.html">Lagu</a>
+    </nav>
+  </div>
 </header>
 
-<nav class="navbar">
-  <a href="index.html">Beranda</a>
-  <a href="renungan.html">Renungan Harian</a>
-  <a href="kesaksian.html">Kesaksian</a>
-  <a href="lagu.html">Lagu Rohani</a>
-</nav>
+<div class="container" id="list"></div>
 
-<main class="container">
-  <div id="list">Memuat...</div>
-</main>
+<footer class="footer">
+  © 2026 Pertumbuhan Iman Kristen
+</footer>
 
 <script>
 fetch("data/kesaksian.json")
 .then(res => res.json())
 .then(data => {
-  let output = "";
-  data.forEach(item => {
-    output += `
-      <div class="card">
-        <h3>${item.judul}</h3>
-        <p>${item.ringkasan}</p>
-        <a class="btn" href="kesaksian-detail.html?id=${item.id}">
-        Baca Selengkapnya
-        </a>
-      </div>
-    `;
-  });
-  document.getElementById("list").innerHTML = output;
+
+  if (!data.length) {
+    document.getElementById("list").innerHTML =
+      "<div class='card'>Kesaksian belum tersedia.</div>";
+    return;
+  }
+
+  const item = data[0];
+
+  document.getElementById("list").innerHTML = `
+    <div class="card">
+      <h3>${item.judul}</h3>
+      <p>${item.ringkasan}</p>
+      <a href="kesaksian-detail.html">
+        <button>Baca Selengkapnya</button>
+      </a>
+    </div>
+  `;
 });
 </script>
 
