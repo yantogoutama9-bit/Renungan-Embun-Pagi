@@ -7,8 +7,21 @@
 </head>
 <body>
 
-<h2>Renungan Harian</h2>
-<div id="list"></div>
+<header class="header">
+  <h1>Pertumbuhan Iman Kristen</h1>
+  <p class="tagline">Renungan Harian</p>
+</header>
+
+<nav class="navbar">
+  <a href="index.html">Beranda</a>
+  <a href="renungan.html">Renungan Harian</a>
+  <a href="kesaksian.html">Kesaksian</a>
+  <a href="lagu.html">Lagu Rohani</a>
+</nav>
+
+<main class="container">
+  <div id="list">Memuat...</div>
+</main>
 
 <script>
 fetch("data/renungan.json")
@@ -19,14 +32,18 @@ fetch("data/renungan.json")
     output += `
       <div class="card">
         <h3>${item.judul}</h3>
+        <small>${item.tanggal}</small>
         <p>${item.ringkasan}</p>
-        <a href="renungan-detail.html?id=${item.id}">
+        <a class="btn" href="renungan-detail.html?id=${item.id}">
         Baca Selengkapnya
         </a>
       </div>
     `;
   });
   document.getElementById("list").innerHTML = output;
+})
+.catch(() => {
+  document.getElementById("list").innerHTML = "Gagal memuat data.";
 });
 </script>
 
