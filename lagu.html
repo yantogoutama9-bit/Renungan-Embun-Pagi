@@ -1,19 +1,34 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Lagu Rohani</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    .video-container iframe {
+      position: absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+    }
+  </style>
 </head>
 <body>
 
 <header class="header">
   <div class="container header-flex">
     <div class="logo-area">
-      <img src="logo.png" alt="Logo" class="logo">
+      <img src="logo.png" class="logo">
       <div>
         <h1>Pertumbuhan Iman Kristen</h1>
-        <p class="tagline">Membangun Iman yang Dewasa dan Konsisten</p>
       </div>
     </div>
     <nav>
@@ -25,42 +40,36 @@
   </div>
 </header>
 
-<div class="container" id="content"></div>
+<div class="container">
+  <h2 class="section-title">Lagu Rohani Pilihan</h2>
+
+  <div class="card">
+    <h3>Bapa Engkau Sungguh Baik</h3>
+    <div class="video-container">
+      <iframe 
+        src="https://www.youtube.com/embed/6X7bPj7V7mA" 
+        frameborder="0" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Ku Percaya JanjiMu</h3>
+    <div class="video-container">
+      <iframe 
+        src="https://www.youtube.com/embed/0LwcvjNJnWA" 
+        frameborder="0" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+</div>
 
 <footer class="footer">
   © 2026 Pertumbuhan Iman Kristen
 </footer>
-
-<script>
-Promise.all([
-  fetch("data/renungan.json").then(res => res.json()),
-  fetch("data/kesaksian.json").then(res => res.json())
-]).then(([renungan, kesaksian]) => {
-
-  const r = renungan[0];
-  const k = kesaksian[0];
-
-  document.getElementById("content").innerHTML = `
-    <h2 class="section-title">Lagu Hari Ini</h2>
-
-    <div class="card">
-      <h3>Dari Renungan</h3>
-      <p><strong>${r.lagu_judul}</strong></p>
-      <a href="${r.lagu_link}" target="_blank">
-        <button>Dengarkan</button>
-      </a>
-    </div>
-
-    <div class="card">
-      <h3>Dari Kesaksian</h3>
-      <p><strong>${k.lagu_judul}</strong></p>
-      <a href="${k.lagu_link}" target="_blank">
-        <button>Dengarkan</button>
-      </a>
-    </div>
-  `;
-});
-</script>
 
 </body>
 </html>
