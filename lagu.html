@@ -4,18 +4,6 @@
 <meta charset="UTF-8">
 <title>Lagu Rohani</title>
 <link rel="stylesheet" href="style.css">
-<style>
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-}
-.video-container iframe {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-</style>
 </head>
 <body>
 
@@ -36,7 +24,9 @@
   </div>
 </header>
 
-<div class="container" id="content"></div>
+<div class="container" id="content">
+  <p>Memuat lagu...</p>
+</div>
 
 <footer class="footer">
   © 2026 Pertumbuhan Iman Kristen
@@ -44,7 +34,12 @@
 
 <script>
 fetch("data/lagu.json")
-.then(res => res.json())
+.then(response => {
+  if (!response.ok) {
+    throw new Error("File tidak ditemukan");
+  }
+  return response.json();
+})
 .then(data => {
 
   document.getElementById("content").innerHTML = `
@@ -58,6 +53,10 @@ fetch("data/lagu.json")
       </div>
     </div>
   `;
+})
+.catch(error => {
+  document.getElementById("content").innerHTML =
+    "<p>Gagal memuat lagu. Periksa file lagu.json.</p>";
 });
 </script>
 
