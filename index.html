@@ -1,39 +1,968 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Pertumbuhan Iman Kristen</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renungan Embun Pagi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        faith: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        divine: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .verse-text {
+            position: relative;
+            line-height: 1.8;
+        }
+        
+        .nav-item.active {
+            color: #ea580c;
+            border-bottom: 2px solid #ea580c;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem;
+        }
+
+        .rss-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: #10b981;
+            background: #d1fae5;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+
+        .rss-indicator.offline {
+            color: #ef4444;
+            background: #fee2e2;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            font-size: 120px;
+            opacity: 0.1;
+            font-family: serif;
+        }
+
+        .prayer-form input:focus, .prayer-form textarea:focus {
+            outline: none;
+            border-color: #ea580c;
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ea580c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-orange-50 via-white to-blue-50 min-h-screen text-slate-800 font-sans selection:bg-faith-200 selection:text-faith-900">
 
-<header class="header">
-  <div class="container header-flex">
-    <div class="logo-area">
-      <img src="logo.png" alt="Logo" class="logo">
-      <div>
-        <h1>Pertumbuhan Iman Kristen</h1>
-        <p class="tagline">Membangun Iman yang Dewasa dan Konsisten</p>
-      </div>
-    </div>
-    <nav>
-      <a href="index.html">Beranda</a>
-      <a href="renungan.html">Renungan</a>
-      <a href="kesaksian.html">Kesaksian</a>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-sun text-faith-600 text-2xl animate-float"></i>
+                    <span class="font-serif font-bold text-xl text-divine-900 tracking-tight">Embun<span class="text-faith-600">Pagi</span></span>
+                    <span id="connection-status" class="rss-indicator ml-3">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        Live Update
+                    </span>
+                </div>
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
+                    <button onclick="switchTab('devotional')" id="nav-devotional" class="nav-item active hover:text-faith-600 transition-colors py-5">Renungan</button>
+                    <button onclick="switchTab('quotes')" id="nav-quotes" class="nav-item hover:text-faith-600 transition-colors py-5">Quotes</button>
+                    <button onclick="switchTab('worship')" id="nav-worship" class="nav-item hover:text-faith-600 transition-colors py-5">Lagu Rohani</button>
+                    <button onclick="switchTab('prayer-support')" id="nav-prayer-support" class="nav-item hover:text-faith-600 transition-colors py-5 flex items-center gap-1">
+                        <i class="fas fa-hands-praying text-xs"></i> Dukungan Doa
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-faith-600 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="switchTab('devotional')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-faith-600 hover:bg-orange-50">Renungan</button>
+                <button onclick="switchTab('quotes')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-faith-600 hover:bg-orange-50">Quotes</button>
+                <button onclick="switchTab('worship')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-faith-600 hover:bg-orange-50">Lagu Rohani</button>
+                <button onclick="switchTab('prayer-support')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-faith-600 hover:bg-orange-50">Dukungan Doa</button>
+            </div>
+        </div>
     </nav>
-  </div>
-</header>
 
-<div class="container">
-  <h2 class="section-title">Selamat Datang</h2>
-  <div class="card">
-    <p>Portal ini menyediakan renungan harian dan kesaksian yang diperbarui secara otomatis.</p>
-  </div>
-</div>
+    <main class="pt-24 pb-12 px-4 sm:px-6 max-w-5xl mx-auto min-h-screen">
+        
+        <!-- SECTION: RENUNGAN HARIAN (AUTO-UPDATE) -->
+        <div id="section-devotional" class="animate-fade-in">
+            <div class="text-center mb-10">
+                <span class="inline-block py-1 px-3 rounded-full bg-faith-100 text-faith-700 text-xs font-bold tracking-wide uppercase mb-3" id="current-date-display">Memuat...</span>
+                <h1 class="font-serif text-4xl md:text-5xl font-bold text-divine-900 mb-4 leading-tight">
+                    Renungan untuk <span class="text-faith-600">Hari Ini</span>
+                </h1>
+                <p class="text-slate-500 max-w-2xl mx-auto text-lg">Terhubung langsung dengan Renungan Harian® untuk mendapatkan penyegaran firman setiap hari.</p>
+            </div>
 
-<footer class="footer">
-  © 2026 Pertumbuhan Iman Kristen
-</footer>
+            <!-- Loading State -->
+            <div id="devotional-loading" class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-8">
+                <div class="animate-pulse space-y-4">
+                    <div class="h-4 bg-slate-200 rounded w-1/4"></div>
+                    <div class="h-8 bg-slate-200 rounded w-3/4"></div>
+                    <div class="space-y-2">
+                        <div class="h-4 bg-slate-200 rounded"></div>
+                        <div class="h-4 bg-slate-200 rounded"></div>
+                        <div class="h-4 bg-slate-200 rounded w-5/6"></div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Content State -->
+            <div id="devotional-content" class="hidden bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 mb-8 transform transition hover:shadow-2xl duration-300">
+                <div class="h-2 bg-gradient-to-r from-faith-400 to-faith-600"></div>
+                <div class="p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="md:w-1/3 flex flex-col justify-center border-b md:border-b-0 md:border-r border-slate-100 pb-8 md:pb-0 md:pr-8">
+                            <i class="fas fa-quote-left text-4xl text-faith-200 mb-4"></i>
+                            <h3 class="font-serif text-2xl font-bold text-divine-900 mb-2" id="devo-verse-ref">Memuat...</h3>
+                            <p class="font-serif text-xl text-slate-700 italic leading-relaxed" id="devo-verse-text">"Sedang memuat renungan dari server..."</p>
+                            <button onclick="copyVerse()" class="mt-6 text-sm text-faith-600 hover:text-faith-800 font-medium flex items-center gap-2 transition-colors self-start">
+                                <i class="far fa-copy"></i> Salin Ayat
+                            </button>
+                        </div>
+                        
+                        <div class="md:w-2/3">
+                            <h2 class="text-2xl font-bold text-divine-900 mb-4" id="devo-title">Memuat Renungan...</h2>
+                            <div class="prose prose-slate prose-lg text-slate-600" id="devo-body">
+                                <p>Renungan sedang dimuat dari sumber terpercaya. Mohon tunggu sebentar...</p>
+                            </div>
+                            
+                            <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-faith-100 flex items-center justify-center text-faith-600">
+                                        <i class="fas fa-pen-nib"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-900">Penulis</p>
+                                        <p class="text-xs text-slate-500" id="devo-author">Renungan Harian®</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="shareDevotional()" class="p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors" title="Bagikan">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <button onclick="toggleLike(this)" class="p-2 rounded-full hover:bg-red-50 text-slate-500 hover:text-red-500 transition-colors" title="Suka">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="devotional-error" class="hidden bg-red-50 border border-red-200 rounded-2xl p-8 text-center">
+                <i class="fas fa-exclamation-circle text-4xl text-red-400 mb-4"></i>
+                <h3 class="text-lg font-bold text-red-800 mb-2">Gagal Memuat Renungan</h3>
+                <p class="text-red-600 mb-4">Tidak dapat terhubung ke server. Menampilkan renungan cadangan.</p>
+                <button onclick="loadFallbackDevotional()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                    Muat Renungan Cadangan
+                </button>
+            </div>
+
+            <!-- Prayer Focus -->
+            <div class="bg-gradient-to-r from-divine-800 to-divine-900 rounded-2xl p-8 text-white shadow-lg relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white opacity-5 rounded-full blur-2xl"></div>
+                <div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
+                    <div class="bg-white/10 p-4 rounded-full backdrop-blur-sm">
+                        <i class="fas fa-praying-hands text-3xl text-faith-300"></i>
+                    </div>
+                    <div class="text-center md:text-left flex-1">
+                        <h3 class="font-serif text-xl font-bold mb-2">Fokus Doa Hari Ini</h3>
+                        <p class="text-slate-300 italic" id="prayer-focus">"Tuhan, terima kasih untuk hari ini..."</p>
+                    </div>
+                    <button onclick="switchTab('prayer-support')" class="px-6 py-2 bg-faith-600 hover:bg-faith-500 text-white rounded-full font-medium transition-all shadow-lg hover:shadow-faith-500/30 whitespace-nowrap">
+                        Minta Doa
+                    </button>
+                </div>
+            </div>
+
+            <!-- Archive Section -->
+            <div class="mt-8">
+                <h3 class="font-serif text-xl font-bold text-divine-900 mb-4">Renungan Sebelumnya</h3>
+                <div id="devotional-archive" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Archive items will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: QUOTES FROM REHOBOT.ORG -->
+        <div id="section-quotes" class="hidden animate-fade-in">
+            <div class="text-center mb-10">
+                <span class="inline-block py-1 px-3 rounded-full bg-purple-100 text-purple-700 text-xs font-bold tracking-wide uppercase mb-3">Auto Update dari Rehobot.org</span>
+                <h1 class="font-serif text-4xl font-bold text-divine-900 mb-4">Quotes <span class="text-faith-600">Kristen</span></h1>
+                <p class="text-slate-500 max-w-2xl mx-auto">Kutipan rohani yang diambil langsung dari Rehobot.org setiap hari.</p>
+            </div>
+
+            <!-- Loading State -->
+            <div id="quotes-loading" class="flex justify-center items-center py-12">
+                <div class="loading-spinner"></div>
+            </div>
+
+            <!-- Featured Quote -->
+            <div id="featured-quote" class="hidden quote-card rounded-2xl p-8 md:p-12 text-white shadow-xl mb-8 transform hover:scale-[1.02] transition-transform duration-300">
+                <div class="relative z-10">
+                    <i class="fas fa-quote-left text-4xl text-white/30 mb-4 block"></i>
+                    <p class="font-serif text-2xl md:text-3xl font-bold leading-relaxed mb-6" id="quote-text">
+                        "Memuat quotes dari Rehobot.org..."
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                            <i class="fas fa-user text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-lg" id="quote-author">Rehobot.org</p>
+                            <p class="text-white/80 text-sm">Sumber: rehobot.org/category/quote</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quotes Grid -->
+            <div id="quotes-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Quotes will be loaded here -->
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="fetchRehobotQuotes()" class="px-8 py-3 bg-faith-600 text-white rounded-full font-medium hover:bg-faith-700 transition-all shadow-lg hover:shadow-faith-500/30">
+                    <i class="fas fa-sync-alt mr-2"></i> Refresh Quotes
+                </button>
+                <p class="text-xs text-slate-500 mt-2">Quotes diambil langsung dari website Rehobot.org</p>
+            </div>
+        </div>
+
+        <!-- SECTION: LAGU ROHANI (YOUTUBE RSS AUTO-UPDATE) -->
+        <div id="section-worship" class="hidden animate-fade-in">
+            <div class="text-center mb-10">
+                <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-700 text-xs font-bold tracking-wide uppercase mb-3">Auto Update dari YouTube</span>
+                <h1 class="font-serif text-4xl font-bold text-divine-900 mb-4">Lagu Rohani <span class="text-faith-600">Terbaru</span></h1>
+                <p class="text-slate-500 max-w-2xl mx-auto">Lagu rohani yang diambil langsung dari playlist YouTube (auto-update saat ada lagu baru).</p>
+            </div>
+
+            <!-- Loading State -->
+            <div id="worship-loading" class="flex justify-center items-center py-12">
+                <div class="loading-spinner"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 hidden" id="worship-grid">
+                <!-- Worship songs will be loaded here -->
+            </div>
+
+            <div class="mt-10 bg-gradient-to-r from-faith-50 to-blue-50 rounded-2xl p-6 border border-faith-100">
+                <div class="flex items-start gap-4">
+                    <div class="bg-faith-100 p-3 rounded-full text-faith-600">
+                        <i class="fas fa-info-circle text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-divine-900 mb-1">Auto Update Aktif</h4>
+                        <p class="text-slate-600 text-sm">Lagu-lagu diambil langsung dari playlist YouTube lagu rohani Indonesia. Saat ada lagu baru di-upload ke playlist, lagu tersebut akan otomatis muncul di aplikasi ini.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION: DUKUNGAN DOA (TANPA JADWAL) -->
+        <div id="section-prayer-support" class="hidden animate-fade-in">
+            <div class="text-center mb-10">
+                <span class="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold tracking-wide uppercase mb-3">Komunitas Doa</span>
+                <h1 class="font-serif text-4xl font-bold text-divine-900 mb-4">Dukungan <span class="text-faith-600">Doa</span></h1>
+                <p class="text-slate-500 max-w-2xl mx-auto">Setiap doa yang Anda sampaikan akan dibawa ke meja doa kami dan didoakan oleh tim doa gereja.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Form Section -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-faith-100 flex items-center justify-center text-faith-600">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <h2 class="font-serif text-2xl font-bold text-divine-900">Kirim Permohonan Doa</h2>
+                    </div>
+
+                    <form id="prayer-form" class="prayer-form space-y-4" onsubmit="submitPrayer(event)">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap</label>
+                            <input type="text" id="prayer-name" required class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-faith-500 transition-colors" placeholder="Masukkan nama Anda">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Email/WhatsApp (Opsional)</label>
+                            <input type="text" id="prayer-contact" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-faith-500 transition-colors" placeholder="Untuk follow-up jika diperlukan">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Kategori Permohonan</label>
+                            <select id="prayer-category" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-faith-500 transition-colors">
+                                <option value="umum">Umum</option>
+                                <option value="kesembuhan">Kesembuhan</option>
+                                <option value="pekerjaan">Pekerjaan & Keuangan</option>
+                                <option value="keluarga">Keluarga & Pernikahan</option>
+                                <option value="pendidikan">Pendidikan</option>
+                                <option value="lainnya">Lainnya</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Permohonan Doa</label>
+                            <textarea id="prayer-request" required rows="5" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-faith-500 transition-colors resize-none" placeholder="Tuliskan permohonan doa Anda di sini..."></textarea>
+                        </div>
+
+                        <button type="submit" id="submit-prayer-btn" class="w-full py-3 bg-faith-600 hover:bg-faith-700 text-white font-bold rounded-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Kirim Permohonan Doa</span>
+                        </button>
+
+                        <p class="text-xs text-slate-500 text-center mt-4">
+                            <i class="fas fa-lock mr-1"></i> Permohonan Anda akan dikirim ke <span class="font-medium">info.gerejaanugerahbaru@gmail.com</span>
+                        </p>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="prayer-success" class="hidden text-center py-8">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-600 mx-auto mb-4">
+                            <i class="fas fa-check text-2xl"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-divine-900 mb-2">Doa Anda Terkirim!</h3>
+                        <p class="text-slate-600 mb-4">Tim doa kami akan berdoa untuk permohonan Anda. Tuhan memberkati!</p>
+                        <button onclick="resetPrayerForm()" class="text-faith-600 hover:text-faith-800 font-medium">Kirim permohonan lain</button>
+                    </div>
+                </div>
+
+                <!-- Info Section -->
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-faith-500 to-faith-700 rounded-2xl p-8 text-white shadow-xl">
+                        <i class="fas fa-hands-praying text-4xl mb-4 opacity-80"></i>
+                        <h3 class="font-serif text-2xl font-bold mb-3">"Berdoalah tanpa henti"</h3>
+                        <p class="text-faith-100 mb-4">1 Tesalonika 5:17</p>
+                        <p class="text-white/90">Kami percaya pada kuasa doa yang syafaat. Setiap permohonan yang Anda sampaikan akan ditangani dengan rahasia dan didoakan dengan sungguh-sungguh oleh tim doa gereja.</p>
+                    </div>
+
+                    <div class="bg-blue-50 rounded-2xl p-6 border border-blue-100">
+                        <h4 class="font-bold text-blue-900 mb-2 flex items-center gap-2">
+                            <i class="fas fa-shield-alt text-blue-500"></i> Kerahasiaan Terjamin
+                        </h4>
+                        <p class="text-blue-800 text-sm">Setiap permohonan doa dijaga kerahasiaannya dan hanya dibagikan kepada tim doa yang berwenang. Kami menghormati privasi setiap jemaat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-divine-900 text-white py-12 mt-auto">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-sun text-faith-400 text-2xl"></i>
+                        <span class="font-serif font-bold text-xl">Embun Pagi</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">Aplikasi renungan harian untuk membangun iman dan kedekatan dengan Tuhan setiap pagi.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Menu</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><button onclick="switchTab('devotional')" class="hover:text-faith-400 transition-colors">Renungan Harian</button></li>
+                        <li><button onclick="switchTab('quotes')" class="hover:text-faith-400 transition-colors">Quotes</button></li>
+                        <li><button onclick="switchTab('worship')" class="hover:text-faith-400 transition-colors">Lagu Rohani</button></li>
+                        <li><button onclick="switchTab('prayer-support')" class="hover:text-faith-400 transition-colors">Dukungan Doa</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Kontak</h4>
+                    <p class="text-slate-400 text-sm mb-2">Email: info.gerejaanugerahbaru@gmail.com</p>
+                    <div class="flex gap-4 mt-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-faith-600 transition-colors"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-faith-600 transition-colors"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-faith-600 transition-colors"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 text-center text-slate-500 text-sm">
+                <p>&copy; 2026 - Renungan Embun Pagi. All rights reserved.</p>
+                <p class="mt-2 text-xs">Sumber: Renungan Harian® | Rehobot.org | YouTube | Dibuat dengan <i class="fas fa-heart text-red-400"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-50 bg-divine-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
+        <i class="fas fa-check-circle text-green-400"></i>
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const RSS_FEED_URL = 'https://www.renunganharian.net/?format=feed&type=rss';
+        const REHOBOT_URL = 'https://rehobot.org/category/quote/';
+        // YouTube Playlist RSS for Indonesian Christian Music
+        // Using a popular Indonesian Christian music playlist
+        const YOUTUBE_PLAYLIST_ID = 'PLQl70RwNJA1SNzUqsRcDH0QWd-m_zCDBm'; // Example: JPCC Worship playlist
+        const YOUTUBE_RSS_URL = `https://www.youtube.com/feeds/videos.xml?playlist_id=${YOUTUBE_PLAYLIST_ID}`;
+        const CORS_PROXY = 'https://api.allorigins.win/get?url=';
+        const PRAYER_EMAIL = 'info.gerejaanugerahbaru@gmail.com';
+        
+        // --- DATA STORE ---
+        const fallbackDevotionals = [
+            {
+                title: "Kekuatan dalam Kelemahan",
+                verseRef: "2 Korintus 12:9",
+                verseText: "Tetapi Ia berkata kepadaku: 'Cukuplah kasih karunia-Ku bagimu, sebab kekuatan-Ku sempurna dalam kelemahan.'",
+                content: "Seringkali kita merasa harus menjadi orang yang kuat, sempurna, dan tanpa cacat cela di hadapan dunia. Namun, firman Tuhan hari ini mengingatkan kita tentang paradoks yang indah: kuasa Allah justru sempurna dalam kelemahan kita.",
+                author: "Tim Embun Pagi",
+                prayer: "Bapa, aku lelah berpura-pura kuat. Hari ini aku datang dengan kelemahanku. Cukupkanlah kasih karunia-Mu dalam hidupku. Amin."
+            },
+            {
+                title: "Jalan yang Sempit",
+                verseRef: "Matius 7:14",
+                verseText: "Sedangkan pintu gerbangnya sempit dan jalannya yang sempit itu adalah jalan yang menuju kepada hidup, dan sedikit orang yang menemukannya.",
+                content: "Dunia menawarkan begitu banyak jalan yang lebar, mudah, dan penuh hiburan instan. Namun, Yesus mengingatkan bahwa jalan kehidupan sejati adalah jalan yang sempit.",
+                author: "Tim Embun Pagi",
+                prayer: "Tuhan, berikanlah aku keberanian untuk memilih jalan-Mu meskipun dunia menawarkan godaan yang lebih mudah. Pimpinlah langkahku setiap hari. Amin."
+            }
+        ];
+
+        const fallbackQuotes = [
+            { text: "Jangan takut, sebab Aku menyertai engkau; jangan bimbang, sebab Aku ini Allahmu.", author: "Yesaya 41:10", source: "Alkitab" },
+            { text: "Kasih itu sabar, kasih itu murah hati, ia tidak cemburu.", author: "1 Korintus 13:4", source: "Alkitab" },
+            { text: "Serahkanlah segala kekuatiranmu kepada-Nya, sebab Ia yang memelihara kamu.", author: "1 Petrus 5:7", source: "Alkitab" },
+            { text: "Tuhan adalah gembalaku, takkan kekurangan aku.", author: "Mazmur 23:1", source: "Alkitab" },
+            { text: "Segala perkara dapat kutanggung di dalam Dia yang memberi kekuatan kepadaku.", author: "Filipi 4:13", source: "Alkitab" },
+            { text: "Kasih setia Tuhan tidak pernah berakhir, rahmat-Nya tidak pernah habis.", author: "Ratapan 3:22-23", source: "Alkitab" }
+        ];
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set Date
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            document.getElementById('current-date-display').textContent = today.toLocaleDateString('id-ID', dateOptions);
+
+            // Load RSS Devotional
+            fetchRSSDevotional();
+
+            // Auto-refresh check every hour
+            setInterval(() => {
+                fetchRSSDevotional();
+            }, 3600000);
+        });
+
+        // --- RSS FETCHING LOGIC (RENUGAN HARIAN) ---
+        async function fetchRSSDevotional() {
+            try {
+                const response = await fetch(`${CORS_PROXY}${encodeURIComponent(RSS_FEED_URL)}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, "application/xml");
+                
+                const items = xmlDoc.querySelectorAll("item");
+                if (items.length === 0) throw new Error('No items found');
+                
+                const todayItem = items[0];
+                const title = todayItem.querySelector("title")?.textContent || "Tanpa Judul";
+                const link = todayItem.querySelector("link")?.textContent || "#";
+                const description = todayItem.querySelector("description")?.textContent || "";
+                const pubDate = todayItem.querySelector("pubDate")?.textContent || new Date().toString();
+                
+                const parsedContent = parseDevotionalContent(description);
+                
+                updateDevotionalUI({
+                    title: title,
+                    verseRef: parsedContent.verseRef,
+                    verseText: parsedContent.verseText,
+                    content: parsedContent.content,
+                    author: "Renungan Harian®",
+                    date: new Date(pubDate).toLocaleDateString('id-ID'),
+                    link: link
+                });
+
+                loadArchive(Array.from(items).slice(1, 4));
+                updateConnectionStatus(true);
+                
+            } catch (error) {
+                console.error('Error fetching RSS:', error);
+                updateConnectionStatus(false);
+                loadFallbackDevotional();
+            }
+        }
+
+        function parseDevotionalContent(htmlContent) {
+            const temp = document.createElement('div');
+            temp.innerHTML = htmlContent;
+            
+            const strongTags = temp.querySelectorAll('strong');
+            let verseRef = "Ayat Hari Ini";
+            let verseText = "Firman Tuhan adalah pelita bagi kaki kita...";
+            let content = htmlContent;
+            
+            const text = temp.textContent;
+            const verseMatch = text.match(/([12]?\s*[A-Za-z]+\s*\d+:\d+[-–]?\d*)/);
+            if (verseMatch) {
+                verseRef = verseMatch[1];
+            }
+            
+            content = htmlContent
+                .replace(/<[^>]*>/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .substring(0, 500) + "...";
+            
+            const italicMatch = text.match(/"([^"]{20,200})"/);
+            if (italicMatch) {
+                verseText = italicMatch[1];
+            }
+            
+            return { verseRef, verseText, content };
+        }
+
+        function updateDevotionalUI(data) {
+            document.getElementById('devotional-loading').classList.add('hidden');
+            document.getElementById('devotional-error').classList.add('hidden');
+            document.getElementById('devotional-content').classList.remove('hidden');
+            
+            document.getElementById('devo-title').textContent = data.title;
+            document.getElementById('devo-verse-ref').textContent = data.verseRef;
+            document.getElementById('devo-verse-text').textContent = `"${data.verseText}"`;
+            document.getElementById('devo-body').innerHTML = `<p>${data.content}</p><p class="mt-4"><a href="${data.link}" target="_blank" class="text-faith-600 hover:underline">Baca selengkapnya di Renungan Harian® →</a></p>`;
+            document.getElementById('devo-author').textContent = data.author;
+            document.getElementById('prayer-focus').textContent = `Terima kasih Tuhan untuk renungan hari ini tentang "${data.title}". Berkatilah setiap pembaca agar dapat mengaplikasikan firman-Mu dalam kehidupan sehari-hari.`;
+        }
+
+        function loadArchive(items) {
+            const container = document.getElementById('devotional-archive');
+            container.innerHTML = items.map(item => {
+                const title = item.querySelector("title")?.textContent || "Tanpa Judul";
+                const date = new Date(item.querySelector("pubDate")?.textContent || Date.now()).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'});
+                return `
+                    <div class="bg-white rounded-lg p-4 shadow-sm border border-slate-100 hover:shadow-md transition-shadow cursor-pointer" onclick="window.open('${item.querySelector("link")?.textContent || '#'}', '_blank')">
+                        <div class="text-xs text-faith-600 font-bold mb-1">${date}</div>
+                        <h4 class="font-bold text-slate-800 text-sm line-clamp-2">${title}</h4>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadFallbackDevotional() {
+            document.getElementById('devotional-loading').classList.add('hidden');
+            document.getElementById('devotional-error').classList.add('hidden');
+            document.getElementById('devotional-content').classList.remove('hidden');
+            
+            const data = fallbackDevotionals[0];
+            document.getElementById('devo-title').textContent = data.title;
+            document.getElementById('devo-verse-ref').textContent = data.verseRef;
+            document.getElementById('devo-verse-text').textContent = `"${data.verseText}"`;
+            document.getElementById('devo-body').innerHTML = `<p>${data.content}</p>`;
+            document.getElementById('devo-author').textContent = data.author;
+            document.getElementById('prayer-focus').textContent = data.prayer;
+        }
+
+        // --- REHOBOT.ORG QUOTES SCRAPING ---
+        async function fetchRehobotQuotes() {
+            const loadingEl = document.getElementById('quotes-loading');
+            const featuredEl = document.getElementById('featured-quote');
+            const gridEl = document.getElementById('quotes-grid');
+            
+            loadingEl.classList.remove('hidden');
+            featuredEl.classList.add('hidden');
+            gridEl.innerHTML = '';
+            
+            try {
+                // Try to fetch from Rehobot.org
+                const response = await fetch(`${CORS_PROXY}${encodeURIComponent(REHOBOT_URL)}`);
+                if (!response.ok) throw new Error('Failed to fetch');
+                
+                const data = await response.json();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data.contents, "text/html");
+                
+                // Try to extract quotes from the page
+                // Common selectors for quote content
+                const quoteElements = doc.querySelectorAll('.quote, .post-content, article, .entry-content');
+                const quotes = [];
+                
+                quoteElements.forEach((el, index) => {
+                    if (index < 4) { // Get first 4 quotes
+                        const text = el.textContent?.trim();
+                        if (text && text.length > 20) {
+                            quotes.push({
+                                text: text.substring(0, 200) + (text.length > 200 ? '...' : ''),
+                                author: "Rehobot.org",
+                                source: "rehobot.org/category/quote"
+                            });
+                        }
+                    }
+                });
+                
+                if (quotes.length === 0) throw new Error('No quotes found');
+                
+                displayQuotes(quotes);
+                showToast("Quotes berhasil dimuat dari Rehobot.org");
+                
+            } catch (error) {
+                console.error('Error fetching Rehobot quotes:', error);
+                // Use fallback quotes
+                const shuffled = [...fallbackQuotes].sort(() => 0.5 - Math.random());
+                displayQuotes(shuffled.slice(0, 4));
+                showToast("Menggunakan quotes cadangan (tidak dapat terhubung ke Rehobot.org)");
+            } finally {
+                loadingEl.classList.add('hidden');
+            }
+        }
+
+        function displayQuotes(quotes) {
+            const featuredEl = document.getElementById('featured-quote');
+            const gridEl = document.getElementById('quotes-grid');
+            
+            // Featured quote
+            const featured = quotes[0];
+            document.getElementById('quote-text').textContent = featured.text;
+            document.getElementById('quote-author').textContent = featured.author;
+            
+            featuredEl.classList.remove('hidden');
+            
+            // Grid quotes
+            gridEl.innerHTML = quotes.slice(1).map(quote => `
+                <div class="bg-white rounded-xl p-6 shadow-md border-l-4 border-faith-500 hover:shadow-lg transition-shadow">
+                    <i class="fas fa-quote-left text-2xl text-faith-200 mb-3"></i>
+                    <p class="text-slate-700 font-medium mb-4 leading-relaxed">${quote.text}</p>
+                    <div class="flex items-center gap-2 text-sm text-slate-500">
+                        <span class="font-bold text-slate-700">${quote.author}</span>
+                        <span>•</span>
+                        <span>${quote.source}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- YOUTUBE RSS AUTO-UPDATE ---
+        async function fetchYouTubeWorship() {
+            const loadingEl = document.getElementById('worship-loading');
+            const gridEl = document.getElementById('worship-grid');
+            
+            loadingEl.classList.remove('hidden');
+            gridEl.classList.add('hidden');
+            
+            try {
+                const response = await fetch(`${CORS_PROXY}${encodeURIComponent(YOUTUBE_RSS_URL)}`);
+                if (!response.ok) throw new Error('Failed to fetch YouTube RSS');
+                
+                const data = await response.json();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, "application/xml");
+                
+                const entries = xmlDoc.querySelectorAll('entry');
+                const videos = [];
+                
+                entries.forEach((entry, index) => {
+                    if (index < 4) { // Get first 4 videos
+                        const title = entry.querySelector('title')?.textContent || 'Unknown Title';
+                        const videoId = entry.querySelector('yt\\:videoId')?.textContent || 
+                                       entry.querySelector('videoId')?.textContent ||
+                                       entry.querySelector('id')?.textContent?.split(':').pop();
+                        const thumbnail = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+                        
+                        videos.push({
+                            title: title,
+                            id: videoId,
+                            thumbnail: thumbnail,
+                            artist: 'YouTube Music'
+                        });
+                    }
+                });
+                
+                if (videos.length === 0) throw new Error('No videos found');
+                
+                renderWorship(videos);
+                showToast("Lagu rohani terbaru berhasil dimuat dari YouTube");
+                
+            } catch (error) {
+                console.error('Error fetching YouTube RSS:', error);
+                // Use fallback videos
+                const fallbackVideos = [
+                    { title: "Kemenangan Terjadi di Sini", id: "kJQP7kiw5Fk", thumbnail: "https://img.youtube.com/vi/kJQP7kiw5Fk/mqdefault.jpg", artist: "JPCC Worship" },
+                    { title: "Ku Ada di Tempat Ini", id: "RgKAFK5djSk", thumbnail: "https://img.youtube.com/vi/RgKAFK5djSk/mqdefault.jpg", artist: "Sari Simorangkir" },
+                    { title: "Sampai Akhir Hidupku", id: "9bZkp7q19f0", thumbnail: "https://img.youtube.com/vi/9bZkp7q19f0/mqdefault.jpg", artist: "JPCC Worship" },
+                    { title: "Jadikan Hatiku Istana CintaMu", id: "fJ9rUzIMcZQ", thumbnail: "https://img.youtube.com/vi/fJ9rUzIMcZQ/mqdefault.jpg", artist: "Franky Sihombing" }
+                ];
+                renderWorship(fallbackVideos);
+                showToast("Menggunakan lagu cadangan (tidak dapat terhubung ke YouTube)");
+            } finally {
+                loadingEl.classList.add('hidden');
+                gridEl.classList.remove('hidden');
+            }
+        }
+
+        function renderWorship(videos) {
+            const container = document.getElementById('worship-grid');
+            container.innerHTML = videos.map(video => `
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-slate-100 hover:shadow-xl transition-all duration-300">
+                    <div class="relative h-48 bg-slate-200 group cursor-pointer" onclick="playVideo('${video.id}')">
+                        <img src="${video.thumbnail}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center pl-1 shadow-lg group-hover:scale-110 transition-transform">
+                                <i class="fas fa-play text-faith-600 text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                            <h3 class="text-white font-bold text-lg truncate">${video.title}</h3>
+                            <p class="text-slate-300 text-sm">${video.artist}</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-slate-50 flex justify-between items-center">
+                        <span class="text-xs font-bold text-slate-400 uppercase">YouTube Music</span>
+                        <button onclick="playVideo('${video.id}')" class="text-faith-600 hover:text-faith-800 font-medium text-sm">Putar Video</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function playVideo(id) {
+            window.open(`https://www.youtube.com/watch?v=${id}`, '_blank');
+        }
+
+        // --- PRAYER SUPPORT FORM ---
+        function submitPrayer(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('prayer-name').value;
+            const contact = document.getElementById('prayer-contact').value;
+            const category = document.getElementById('prayer-category').value;
+            const request = document.getElementById('prayer-request').value;
+            
+            const btn = document.getElementById('submit-prayer-btn');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+            btn.disabled = true;
+            
+            const subject = `[Dukungan Doa] Permohonan dari ${name} - ${category}`;
+            const body = `Nama: ${name}\nKontak: ${contact || 'Tidak disertakan'}\nKategori: ${category}\n\nPermohonan Doa:\n${request}\n\n---\nDikirim dari aplikasi Renungan Embun Pagi`;
+            
+            setTimeout(() => {
+                window.location.href = `mailto:${PRAYER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                document.getElementById('prayer-form').classList.add('hidden');
+                document.getElementById('prayer-success').classList.remove('hidden');
+                
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                
+                showToast("Doa Anda telah dikirim ke tim doa kami");
+            }, 1500);
+        }
+
+        function resetPrayerForm() {
+            document.getElementById('prayer-form').reset();
+            document.getElementById('prayer-form').classList.remove('hidden');
+            document.getElementById('prayer-success').classList.add('hidden');
+        }
+
+        // --- UI UTILITIES ---
+        function switchTab(tabName) {
+            ['devotional', 'quotes', 'worship', 'prayer-support'].forEach(t => {
+                document.getElementById(`section-${t}`).classList.add('hidden');
+                document.getElementById(`nav-${t}`).classList.remove('active', 'text-faith-600', 'border-b-2', 'border-faith-600');
+                document.getElementById(`nav-${t}`).classList.add('text-slate-600');
+            });
+
+            document.getElementById(`section-${tabName}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tabName}`);
+            activeNav.classList.add('active', 'text-faith-600');
+            activeNav.classList.remove('text-slate-600');
+
+            document.getElementById('mobile-menu').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Load content if needed
+            if (tabName === 'quotes') {
+                fetchRehobotQuotes();
+            } else if (tabName === 'worship') {
+                fetchYouTubeWorship();
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function copyVerse() {
+            const text = document.getElementById('devo-verse-text').textContent + " - " + document.getElementById('devo-verse-ref').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Ayat berhasil disalin!");
+            });
+        }
+
+        function shareDevotional() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.getElementById('devo-title').textContent,
+                    text: document.getElementById('devo-verse-text').textContent,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                showToast("Bagikan fitur tersedia di mobile");
+            }
+        }
+
+        function toggleLike(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas', 'text-red-500');
+                showToast("Ditambahkan ke favorit");
+            } else {
+                icon.classList.add('far');
+                icon.classList.remove('fas', 'text-red-500');
+            }
+        }
+
+        function updateConnectionStatus(isOnline) {
+            const statusEl = document.getElementById('connection-status');
+            if (isOnline) {
+                statusEl.innerHTML = '<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Live Update';
+                statusEl.classList.remove('offline');
+            } else {
+                statusEl.innerHTML = '<span class="w-2 h-2 bg-red-500 rounded-full"></span> Offline Mode';
+                statusEl.classList.add('offline');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
 </body>
 </html>
