@@ -3,786 +3,686 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Renungan Embun Pagi - Renungan harian Kristen untuk memperkuat iman">
     <title>Renungan Embun Pagi</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .nav-item.active { color: #ea580c; border-bottom: 2px solid #ea580c; }
-        .loading-spinner { border: 3px solid #f3f3f3; border-top: 3px solid #ea580c; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        .verse-card {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%);
-            position: relative;
-            overflow: hidden;
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e8d5b7;
+            --accent: #d4a574;
+            --text: #3d3d3d;
+            --light: #faf9f7;
+            --white: #ffffff;
+            --shadow: 0 10px 40px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
         }
-        .verse-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-        .verse-text {
-            font-family: 'Playfair Display', serif;
-            line-height: 1.6;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        .verse-reference {
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
             font-family: 'Inter', sans-serif;
-            letter-spacing: 0.05em;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
         }
-        .reflection-box {
-            background: rgba(255, 255, 255, 0.1);
+
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            opacity: 0.4;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border-left: 4px solid #fbbf24;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        .date-badge-verse {
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.3);
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .action-btn {
-            transition: all 0.3s ease;
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent);
+            animation: pulse 2s infinite;
         }
-        
-        /* VIDEO THUMBNAIL STYLES */
-        .video-thumb {
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
             position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            background-size: cover;
-            background-position: center;
-            cursor: pointer;
-            border-radius: 0.75rem;
-            overflow: hidden;
+            padding: 0.5rem 0;
+            transition: var(--transition);
         }
-        .video-thumb::after {
-            content: '\f144';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 400;
-            font-size: 4rem;
-            color: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.9;
-            transition: all 0.3s;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-        .video-thumb:hover::after {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.1);
-            color: #ff0000;
-        }
-        .video-thumb::before {
+
+        nav a::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.2);
-            transition: all 0.3s;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
         }
-        .video-thumb:hover::before {
-            background: rgba(0,0,0,0.4);
+
+        nav a:hover::after { width: 100%; }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            margin-bottom: 3rem;
+            position: relative;
         }
-        
-        .calendar-day {
-            aspect-ratio: 1;
+
+        .date-display {
+            display: inline-block;
+            background: rgba(255,255,255,0.9);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            font-weight: 500;
+        }
+
+        .hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .navigation-date {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
+            transition: var(--transition);
         }
-        .calendar-day:hover {
-            background-color: #fed7aa;
+
+        .nav-btn:hover {
+            background: var(--primary);
+            transform: scale(1.1);
         }
-        .calendar-day.active {
-            background-color: #ea580c;
+
+        .current-date-display {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .verse-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .verse-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px; left: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 10rem;
+            color: var(--accent);
+            opacity: 0.1;
+        }
+
+        .verse-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .verse-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .verse-reference {
+            text-align: right;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .devotion-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .devotion-content {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: var(--text);
+            text-align: justify;
+        }
+
+        .devotion-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+        }
+
+        .prayer-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .prayer-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prayer-text {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-style: italic;
+            color: #555;
+            line-height: 1.9;
+        }
+
+        footer {
+            background: var(--primary);
             color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
         }
-        .calendar-day.other-month {
-            color: #cbd5e1;
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .social-links {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            display: flex;
+        }
+
+        .scroll-top:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            .verse-card, .devotion-section {
+                padding: 2rem 1.5rem;
+            }
+            .verse-text {
+                font-size: 1.2rem;
+            }
+            .navigation-date {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-orange-50 via-white to-blue-50 min-h-screen text-slate-800 font-sans">
+<body>
+    <div class="bg-animation"></div>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel shadow-sm">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-sun text-orange-600 text-2xl"></i>
-                    <span class="font-serif font-bold text-xl text-slate-900 tracking-tight">Embun<span class="text-orange-600">Pagi</span></span>
-                </div>
-                <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
-                    <button onclick="switchTab('devotional')" id="nav-devotional" class="nav-item active hover:text-orange-600 transition-colors py-5">Renungan</button>
-                    <button onclick="switchTab('verse')" id="nav-verse" class="nav-item hover:text-orange-600 transition-colors py-5">Ayat Hari Ini</button>
-                    <button onclick="switchTab('worship')" id="nav-worship" class="nav-item hover:text-orange-600 transition-colors py-5">Lagu Rohani</button>
-                    <button onclick="switchTab('prayer-support')" id="nav-prayer-support" class="nav-item hover:text-orange-600 transition-colors py-5 flex items-center gap-1">
-                        <i class="fas fa-hands-praying text-xs"></i> Dukungan Doa
-                    </button>
-                </div>
-                <div class="md:hidden flex items-center">
-                    <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-orange-600">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-sun"></i>
+                <h1>Renungan Embun Pagi</h1>
             </div>
+            <nav>
+                <ul>
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#renungan">Renungan</a></li>
+                    <li><a href="#tentang">Tentang</a></li>
+                </ul>
+            </nav>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <button onclick="switchTab('devotional')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Renungan</button>
-                <button onclick="switchTab('verse')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Ayat Hari Ini</button>
-                <button onclick="switchTab('worship')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Lagu Rohani</button>
-                <button onclick="switchTab('prayer-support')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Dukungan Doa</button>
+    </header>
+
+    <section class="hero" id="beranda">
+        <div class="hero-content">
+            <div class="date-display">
+                <i class="far fa-calendar-alt"></i>
+                <span id="current-date"></span>
             </div>
+            <h2>Selamat Pagi, Saudara/i</h2>
+            <p>Renungan baru setiap hari. Firman Tuhan yang menyegarkan jiwa.</p>
         </div>
-    </nav>
+    </section>
 
-    <main class="pt-24 pb-12 px-4 sm:px-6 max-w-5xl mx-auto min-h-screen">
-        
-        <!-- SECTION: RENUNGAN HARIAN -->
-        <div id="section-devotional">
-            <div class="text-center mb-10">
-                <span class="inline-block py-1 px-3 rounded-full bg-orange-100 text-orange-700 text-xs font-bold uppercase mb-3" id="current-date-display">Memuat...</span>
-                <h1 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-                    Renungan untuk <span class="text-orange-600">Hari Ini</span>
-                </h1>
+    <main class="container">
+        <!-- Navigasi Tanggal -->
+        <div class="navigation-date">
+            <button class="nav-btn" onclick="changeDate(-1)" title="Hari Sebelumnya">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="current-date-display" id="devotion-date">
+                Memuat...
             </div>
+            <button class="nav-btn" onclick="changeDate(1)" title="Hari Berikutnya">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
 
-            <div id="devotional-loading" class="bg-white rounded-2xl shadow-xl p-8 mb-8">
-                <div class="flex flex-col items-center justify-center py-8">
-                    <div class="loading-spinner mb-4"></div>
-                    <p class="text-slate-500">Menghubungkan ke server...</p>
-                </div>
+        <!-- Ayat Hari Ini -->
+        <div class="verse-card">
+            <div class="verse-header">
+                <i class="fas fa-book-open"></i>
+                <span>Ayat Hari Ini</span>
             </div>
-
-            <div id="devotional-content" class="hidden bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 mb-8">
-                <div class="h-2 bg-gradient-to-r from-orange-400 to-orange-600"></div>
-                <div class="p-8 md:p-12">
-                    <div class="flex flex-col md:flex-row gap-8">
-                        <div class="md:w-1/3 flex flex-col justify-center border-b md:border-b-0 md:border-r border-slate-100 pb-8 md:pb-0 md:pr-8">
-                            <i class="fas fa-quote-left text-4xl text-orange-200 mb-4"></i>
-                            <h3 class="font-serif text-2xl font-bold text-slate-900 mb-2" id="devo-verse-ref">Memuat...</h3>
-                            <p class="font-serif text-xl text-slate-700 italic leading-relaxed" id="devo-verse-text">"..."</p>
-                            <button onclick="copyVerse()" class="mt-6 text-sm text-orange-600 hover:text-orange-800 font-medium flex items-center gap-2 self-start">
-                                <i class="far fa-copy"></i> Salin Ayat
-                            </button>
-                        </div>
-                        
-                        <div class="md:w-2/3">
-                            <h2 class="text-2xl font-bold text-slate-900 mb-4" id="devo-title">Memuat...</h2>
-                            <div class="prose prose-slate prose-lg text-slate-600" id="devo-body">
-                                <p>Memuat renungan...</p>
-                            </div>
-                            
-                            <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
-                                        <i class="fas fa-pen-nib"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-bold text-slate-900">Penulis</p>
-                                        <p class="text-xs text-slate-500" id="devo-author">Renungan Harian®</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-2">
-                                    <button onclick="shareDevotional()" class="p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors">
-                                        <i class="fas fa-share-alt"></i>
-                                    </button>
-                                    <button onclick="toggleLike(this)" class="p-2 rounded-full hover:bg-red-50 text-slate-500 hover:text-red-500 transition-colors">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="verse-text" id="daily-verse">
+                Memuat ayat...
             </div>
-
-            <div id="devotional-error" class="hidden bg-red-50 border border-red-200 rounded-2xl p-8 text-center">
-                <i class="fas fa-exclamation-circle text-4xl text-red-400 mb-4"></i>
-                <h3 class="text-lg font-bold text-red-800 mb-2">Gagal Memuat</h3>
-                <div class="flex gap-3 justify-center">
-                    <button onclick="retryFetch()" class="px-6 py-2 bg-orange-600 text-white rounded-lg font-medium">
-                        <i class="fas fa-sync-alt"></i> Coba Lagi
-                    </button>
-                    <button onclick="loadFallbackDevotional()" class="px-6 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50">
-                        Offline Mode
-                    </button>
-                </div>
+            <div class="verse-reference" id="verse-reference">
+                -
             </div>
         </div>
 
-        <!-- SECTION: AYAT HARI INI -->
-        <div id="section-verse" class="hidden">
-            <div class="text-center mb-8">
-                <span class="inline-block py-1 px-3 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold uppercase mb-3">
-                    <i class="fas fa-bible mr-1"></i> Ayat Pilihan
-                </span>
-                <h1 class="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-2">
-                    Ayat <span class="text-orange-600">Hari Ini</span>
-                </h1>
-                <p class="text-slate-500" id="verse-date-display">Memuat tanggal...</p>
+        <!-- Renungan -->
+        <div class="devotion-section" id="renungan">
+            <h2 class="section-title">
+                <i class="fas fa-dove"></i>
+                <span id="devotion-title">Renungan Pagi</span>
+            </h2>
+            
+            <div class="devotion-content" id="devotion-text">
+                Memuat renungan...
             </div>
 
-            <div class="verse-card rounded-3xl p-8 md:p-12 text-white shadow-2xl mb-8 relative">
-                <div class="relative z-10 max-w-3xl mx-auto text-center">
-                    <div class="mb-6">
-                        <span class="date-badge-verse px-4 py-2 rounded-full text-sm font-medium inline-flex items-center gap-2">
-                            <i class="fas fa-calendar-day"></i>
-                        </span>
-                    </div>
-
-                    <div class="mb-6">
-                        <i class="fas fa-bible text-6xl text-yellow-300/80"></i>
-                    </div>
-
-                    <blockquote class="mb-8">
-                        <p class="verse-text text-2xl md:text-4xl font-semibold mb-6 leading-relaxed" id="daily-verse-text">
-                            "Sebab Aku ini mengetahui rancangan-rancangan apa yang ada pada-Ku mengenai kamu, demikianlah firman TUHAN, yaitu rancangan damai sejahtera dan bukan rancangan kecelakaan, untuk memberikan kepadamu hari depan yang penuh harapan."
-                        </p>
-                        <footer class="verse-reference">
-                            <cite class="text-lg md:text-xl font-bold text-yellow-300 not-italic" id="daily-verse-ref">
-                                Yeremia 29:11
-                            </cite>
-                        </footer>
-                    </blockquote>
-
-                    <div class="flex flex-wrap justify-center gap-4 mb-8">
-                        <button onclick="copyDailyVerse()" class="action-btn bg-white/20 hover:bg-white/30 backdrop-blur-sm px-6 py-3 rounded-full font-medium flex items-center gap-2">
-                            <i class="fas fa-copy"></i>
-                            <span>Salin Ayat</span>
-                        </button>
-                        <button onclick="shareDailyVerse()" class="action-btn bg-white/20 hover:bg-white/30 backdrop-blur-sm px-6 py-3 rounded-full font-medium flex items-center gap-2">
-                            <i class="fas fa-share-alt"></i>
-                            <span>Bagikan</span>
-                        </button>
-                        <button onclick="readFullChapter()" class="action-btn bg-yellow-500 hover:bg-yellow-400 text-slate-900 px-6 py-3 rounded-full font-medium flex items-center gap-2">
-                            <i class="fas fa-book-open"></i>
-                            <span>Baca Pasal Lengkap</span>
-                        </button>
-                    </div>
-
-                    <div class="reflection-box rounded-2xl p-6 text-left">
-                        <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
-                            <i class="fas fa-lightbulb text-yellow-400"></i>
-                            <span>Renungan Singkat</span>
-                        </h3>
-                        <p class="text-white/90 leading-relaxed" id="daily-verse-reflection">
-                            Tuhan memiliki rencana yang indah untuk hidupmu. Meskipun saat ini mungkin kamu menghadapi kesulitan, percayalah bahwa Tuhan sedang mempersiapkan masa depan yang penuh harapan bagimu. Jangan menyerah, terus percaya pada rencana-Nya.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <button onclick="changeVerse(-1)" class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-lg transition-all text-left group">
-                    <div class="flex items-center gap-3 text-slate-400 mb-2 group-hover:text-orange-600">
-                        <i class="fas fa-chevron-left"></i>
-                        <span class="text-sm font-medium">Kemarin</span>
-                    </div>
-                    <p class="text-slate-600 text-sm line-clamp-2" id="prev-verse-preview">Mazmur 23:1 - "TUHAN adalah gembalaku..."</p>
-                </button>
-
-                <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 shadow-md text-white text-center">
-                    <i class="fas fa-compass text-3xl mb-2"></i>
-                    <p class="text-sm font-medium opacity-90">Tema Hari Ini</p>
-                    <p class="font-bold text-lg" id="daily-theme">Pengharapan</p>
-                </div>
-
-                <button onclick="changeVerse(1)" class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-lg transition-all text-right group">
-                    <div class="flex items-center justify-end gap-3 text-slate-400 mb-2 group-hover:text-orange-600">
-                        <span class="text-sm font-medium">Besok</span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <p class="text-slate-600 text-sm line-clamp-2" id="next-verse-preview">Filipi 4:13 - "Segala perkara dapat..."</p>
-                </button>
-            </div>
-
-            <div class="mt-8 bg-white rounded-2xl p-6 shadow-md border border-slate-100">
-                <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <i class="fas fa-calendar-alt text-orange-600"></i>
-                    <span>Jadwal Ayat Bulan Ini</span>
+            <!-- Doa -->
+            <div class="prayer-section">
+                <h3 class="prayer-title">
+                    <i class="fas fa-praying-hands"></i>
+                    Doa Pagi
                 </h3>
-                <div class="grid grid-cols-7 gap-2 text-center text-sm mb-2 font-bold text-slate-400">
-                    <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
-                </div>
-                <div class="grid grid-cols-7 gap-2 text-center text-sm" id="monthly-verse-calendar">
+                <div class="prayer-text" id="prayer-text">
+                    Memuat doa...
                 </div>
             </div>
         </div>
-
-        <!-- SECTION: LAGU ROHANI - Menggunakan thumbnail yang bisa diklik -->
-        <div id="section-worship" class="hidden">
-            <div class="text-center mb-10">
-                <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase mb-3">Koleksi Lagu Rohani</span>
-                <h1 class="font-serif text-4xl font-bold text-slate-900 mb-4">Lagu Rohani <span class="text-orange-600">Pilihan</span></h1>
-                <p class="text-slate-500">Klik thumbnail untuk menonton video di YouTube</p>
-            </div>
-
-            <div id="worship-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8"></div>
-
-            <div class="mt-8 text-center">
-                <button onclick="rotateWorshipSongs()" class="px-8 py-3 bg-orange-600 text-white rounded-full font-medium hover:bg-orange-700 transition-all shadow-lg">
-                    <i class="fas fa-sync-alt mr-2"></i> Ganti Lagu
-                </button>
-            </div>
-        </div>
-
-        <!-- SECTION: DUKUNGAN DOA -->
-        <div id="section-prayer-support" class="hidden">
-            <div class="text-center mb-10">
-                <span class="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold uppercase mb-3">Komunitas Doa</span>
-                <h1 class="font-serif text-4xl font-bold text-slate-900 mb-4">Dukungan <span class="text-orange-600">Doa</span></h1>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
-                            <i class="fas fa-paper-plane"></i>
-                        </div>
-                        <h2 class="font-serif text-2xl font-bold text-slate-900">Kirim Permohonan Doa</h2>
-                    </div>
-
-                    <form id="prayer-form" class="space-y-4" onsubmit="submitPrayer(event)">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap *</label>
-                            <input type="text" id="prayer-name" required class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all" placeholder="Masukkan nama Anda">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Email/WhatsApp</label>
-                            <input type="text" id="prayer-contact" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all" placeholder="Untuk follow-up (opsional)">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Kategori *</label>
-                            <select id="prayer-category" required class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all">
-                                <option value="Umum">Umum</option>
-                                <option value="Kesembuhan">Kesembuhan</option>
-                                <option value="Pekerjaan & Keuangan">Pekerjaan & Keuangan</option>
-                                <option value="Keluarga & Pernikahan">Keluarga & Pernikahan</option>
-                                <option value="Pendidikan">Pendidikan</option>
-                                <option value="Lainnya">Lainnya</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Permohonan Doa *</label>
-                            <textarea id="prayer-request" required rows="5" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all resize-none" placeholder="Tuliskan permohonan doa Anda di sini..."></textarea>
-                        </div>
-
-                        <button type="submit" id="submit-prayer-btn" class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>Kirim via WhatsApp</span>
-                        </button>
-
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-3 mt-4">
-                            <p class="text-xs text-green-800 text-center">
-                                <i class="fas fa-info-circle mr-1"></i>
-                                Permohonan doa akan langsung terkirim ke WhatsApp.
-                            </p>
-                        </div>
-                    </form>
-
-                    <div id="prayer-success" class="hidden text-center py-8">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-600 mx-auto mb-4">
-                            <i class="fab fa-whatsapp text-2xl"></i>
-                        </div>
-                        <h3 class="font-bold text-xl text-slate-900 mb-2">WhatsApp Dibuka!</h3>
-                        <p class="text-slate-600 mb-4">Silakan kirim permohonan doa Anda melalui WhatsApp. Tim doa kami akan segera mendoakan.</p>
-                        <button onclick="resetPrayerForm()" class="text-orange-600 hover:text-orange-800 font-medium">Kirim permohonan lain</button>
-                    </div>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="bg-gradient-to-br from-orange-500 to-orange-700 rounded-2xl p-8 text-white shadow-xl">
-                        <i class="fas fa-hands-praying text-4xl mb-4 opacity-80"></i>
-                        <h3 class="font-serif text-2xl font-bold mb-3">"Berdoalah tanpa henti"</h3>
-                        <p class="text-orange-100 mb-4">1 Tesalonika 5:17</p>
-                    </div>
-                    <div class="bg-blue-50 rounded-2xl p-6 border border-blue-100">
-                        <h4 class="font-bold text-blue-900 mb-2 flex items-center gap-2">
-                            <i class="fas fa-shield-alt text-blue-500"></i> Kerahasiaan Terjamin
-                        </h4>
-                        <p class="text-blue-800 text-sm">Setiap permohonan dijaga kerahasiaannya dan hanya dibagikan kepada tim doa yang terpercaya.</p>
-                    </div>
-                    <div class="bg-green-50 rounded-2xl p-6 border border-green-100">
-                        <h4 class="font-bold text-green-900 mb-2 flex items-center gap-2">
-                            <i class="fab fa-whatsapp text-green-500"></i> Respon Cepat
-                        </h4>
-                        <p class="text-green-800 text-sm">Tim doa kami akan merespon permohonan Anda dalam waktu 24 jam.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </main>
 
-    <footer class="bg-slate-900 text-white py-12 mt-auto">
-        <div class="max-w-5xl mx-auto px-4 text-center">
-            <p>&copy; 2026 - Renungan Embun Pagi. All rights reserved.</p>
-            <p class="mt-2 text-xs text-slate-400">Sumber: Renungan Harian® | Alkitab (TB) | YouTube</p>
+    <footer id="tentang">
+        <div class="footer-content">
+            <div class="footer-logo">Renungan Embun Pagi</div>
+            <div class="footer-text">
+                <p>"Firman-Mu adalah pelita bagi kakiku dan terang bagi jalanku." — Mazmur 119:105</p>
+                <p style="margin-top: 1rem; font-size: 0.85rem;">
+                    Dibuat dengan <i class="fas fa-heart" style="color: #e74c3c;"></i> untuk memperkuat iman
+                </p>
+            </div>
+            <div class="social-links">
+                <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
         </div>
     </footer>
 
-    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-50 bg-slate-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
-        <i class="fas fa-check-circle text-green-400"></i>
-        <span id="toast-message">Notification</span>
-    </div>
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script>
-        // DATABASE AYAT ALKITAB
-        const bibleVersesDB = [
-            { day: 1, ref: "Yeremia 29:11", text: "Sebab Aku ini mengetahui rancangan-rancangan apa yang ada pada-Ku mengenai kamu, demikianlah firman TUHAN, yaitu rancangan damai sejahtera dan bukan rancangan kecelakaan, untuk memberikan kepadamu hari depan yang penuh harapan.", theme: "Pengharapan", reflection: "Tuhan memiliki rencana indah untuk hidupmu. Meski saat ini sulit, percayalah masa depanmu penuh harapan." },
-            { day: 2, ref: "Mazmur 23:1", text: "TUHAN adalah gembalaku, takkan kekurangan aku.", theme: "Kecukupan", reflection: "Dalam Tuhan, kita punya segala yang kita butuhkan. Percayalah pada penyediaan-Nya." },
-            { day: 3, ref: "Filipi 4:13", text: "Segala perkara dapat kutanggung di dalam Dia yang memberi kekuatan kepadaku.", theme: "Kekuatan", reflection: "Kamu lebih kuat dari yang kamu kira, karena Tuhan memberi kekuatan." },
-            { day: 4, ref: "Yesaya 41:10", text: "Janganlah takut, sebab Aku menyertai engkau; janganlah bimbang, sebab Aku ini Allahmu; Aku akan meneguhkan, bahkan akan menolong engkau; Aku akan memegang engkau dengan tangan kanan-Ku yang membawa kemenangan.", theme: "Keberanian", reflection: "Tuhan selalu menyertaimu. Jangan takut menghadapi hari ini." },
-            { day: 5, ref: "1 Korintus 13:4-5", text: "Kasih itu sabar; kasih itu murah hati; ia tidak cemburu. Ia tidak memegahkan diri dan tidak sombong. Ia tidak melakukan yang tidak sopan dan tidak mencari keuntungan sendiri.", theme: "Kasih", reflection: "Cintailah orang lain dengan tulus, tanpa pamrih dan kesombongan." },
-            { day: 6, ref: "Amsal 3:5-6", text: "Percayalah kepada TUHAN dengan segenap hatimu, dan janganlah bersandar kepada pengertianmu sendiri. Akuilah Dia dalam segala lakumu, maka Ia akan meluruskan jalanmu.", theme: "Kepercayaan", reflection: "Serahkan rencanamu kepada Tuhan. Dia akan menunjukkan jalan yang terbaik." },
-            { day: 7, ref: "Yesaya 40:31", text: "Tetapi orang-orang yang menanti-nantikan TUHAN akan mendapat kekuatan baru: mereka akan naik sayapnya seperti elang; mereka akan berlari dan tidak menjadi lesu, mereka akan berjalan dan tidak menjadi lelah.", theme: "Kekuatan Baru", reflection: "Tunggulah Tuhan. Dia akan memberikan kekuatan baru bagimu." },
-            { day: 8, ref: "Roma 8:28", text: "Kita tahu sekarang, bahwa Allah turut bekerja dalam segala sesuatu untuk mendatangkan kebaikan bagi mereka yang mengasihi Dia.", theme: "Kebaikan Tuhan", reflection: "Semua yang terjadi akan diubah Tuhan menjadi kebaikan. Percayalah!" },
-            { day: 9, ref: "Matius 11:28", text: "Marilah kepada-Ku, semua yang letih lesu dan berbeban berat, Aku akan memberi kelegaan kepadamu.", theme: "Kelegaan", reflection: "Bawa bebanmu kepada Tuhan. Dia memberikan ketenangan dan kedamaian." },
-            { day: 10, ref: "Yohanes 3:16", text: "Karena begitu besar kasih Allah akan dunia ini, sehingga Ia telah mengaruniakan Anak-Nya yang tunggal, supaya setiap orang yang percaya kepada-Nya tidak binasa, melainkan beroleh hidup yang kekal.", theme: "Kasih Allah", reflection: "Allah mengasihimu dengan kasih yang tak terbatas. Anak-Nya menjadi pengorbanan untukmu." }
+        // DATABASE RENUNGAN 365 HARI - VERSI RINGKAS
+        const devotionDatabase = [
+            { title: "Awal yang Baru", verse: "Karena itu, jika ada orang di dalam Kristus, ia adalah ciptaan baru; yang lama sudah berlalu, sesungguhnya yang baru sudah datang.", reference: "2 Korintus 5:17", content: "<p>Selamat tahun baru! Hari ini kita memulai lembaran baru dalam hidup kita. Tuhan memberikan kesempatan bagi kita untuk memulai kembali, meninggalkan masa lalu yang buruk dan melangkah ke depan dengan iman yang baru.</p><div class=\"highlight-box\">\"Setiap pagi adalah kesempatan baru untuk mengalami kasih setia Tuhan yang tidak pernah berubah.\"</div><p>Jangan biarkan kegagalan masa lalu menghambat langkahmu hari ini. Tuhan sudah mengampuni, sudah memulihkan, dan sudah menyiapkan yang terbaik bagimu.</p>", prayer: "Bapa di surga, terima kasih untuk tahun baru ini. Ajar aku untuk melupakan yang di belakang dan mencapai yang di depan. Berikanlah kekuatan dan hikmat untuk menjalani setiap hari sesuai dengan kehendak-Mu. Amin." },
+            { title: "Kasih Setia yang Baru", verse: "Kasih setia TUHAN itu tidak pernah berakhir, selalu baru tiap pagi; besar kesetiaan-Mu!", reference: "Ratapan 3:22-23", content: "<p>Setiap pagi ketika kita membuka mata, kita menerima karunia baru dari Tuhan. Kasih setia-Nya tidak pernah habis, tidak pernah usang, dan selalu segar seperti embun pagi yang menyegarkan bumi.</p><div class=\"highlight-box\">\"Jangan biarkan kegagalan kemarin menghancurkan harapan hari ini. Tuhan selalu memberikan yang baru setiap pagi.\"</div><p>Bangunlah dengan sukacita! Tuhan masih mengasihimu, masih menyertaimu, dan masih punya rencana indah untuk hidupmu.</p>", prayer: "Ya Tuhan, terima kasih untuk kasih setia-Mu yang baru setiap pagi. Ajar aku untuk selalu bersyukur dan menghargai setiap karunia yang Engkau berikan. Amin." },
+            { title: "Terang di Kegelapan", verse: "Terang itu bercahaya di dalam kegelapan, dan kegelapan itu tidak menguasainya.", reference: "Yohanes 1:5", content: "<p>Dunia ini penuh dengan kegelapan - kegelapan dosa, kegelapan keputusasaan, kegelapan kebingungan. Tetapi terang Kristus bercahaya terang di tengah kegelapan ini, dan tidak ada kegelapan yang dapat memadamkannya.</p><div class=\"highlight-box\">\"Kegelapan hanya adalah absennya terang. Bawa Yesus masuk ke dalam situasimu, dan kegelapan akan lari.\"</div><p>Jangan takut dengan kegelapan yang ada di sekitarmu. Terang Kristus yang ada dalam dirimu lebih besar dari setiap kegelapan di luar sana.</p>", prayer: "Yesus, terang dunia, terangilah hatiku dan hidupku. Hilangkan setiap kegelapan ketakutan, kekhawatiran, dan dosa. Jadikan aku pembawa terang-Mu. Amin." },
+            { title: "Iman yang Menggerakkan Gunung", verse: "Sesungguhnya jika kamu mempunyai iman sebesar biji sesawi saja, kamu dapat berkata kepada gunung ini: Pindah dari tempat ini ke sana, maka gunung ini akan pindah, dan bagi kamu tidak akan ada yang mustahil.", reference: "Matius 17:20", content: "<p>Iman yang sejati tidak perlu besar, yang penting itu tulus dan ditujukan kepada Tuhan yang Maha Kuasa. Sekecil apapun imanmu, jika kamu percaya kepada Tuhan, Dia akan melakukan hal-hal yang luar biasa dalam hidupmu.</p><div class=\"highlight-box\">\"Jangan lihat pada besarnya gunung, lihatlah pada besarnya Tuhan kita.\"</div><p>Hari ini, hadapi setiap tantangan dengan iman. Jangan katakan 'tidak mungkin' tetapi katakan 'Tuhan sanggup'.</p>", prayer: "Ya Tuhan, perbesar imanku. Ajar aku untuk percaya sepenuhnya kepada-Mu meski dalam keadaan yang sulit. Amin." },
+            { title: "Damai Sejahtera", verse: "Damai sejahtera Kutinggalkan bagimu. Damai sejahtera-Ku Kuberikan kepadamu, dan apa yang Kuberikan tidak seperti yang diberikan oleh dunia.", reference: "Yohanes 14:27", content: "<p>Dunia menawarkan kedamaian yang sementara - melalui harta, kekuasaan, atau hiburan. Tetapi damai sejahtera dari Tuhan berbeda. Itu adalah damai yang melampaui pengertian, damai yang tetap ada meski badai menerpa.</p><div class=\"highlight-box\">\"Damai dunia bergantung pada keadaan, damai Kristus bergantung pada Tuhan yang tidak pernah berubah.\"</div><p>Jangan biarkan hatimu gelisah. Terimalah damai sejahtera yang Yesus berikan. Biarkan itu menjadi penjaga hatimu dan pikiranmu.</p>", prayer: "Yesus, Pangeran Damai, berikanlah hatiku damai sejahtera yang dari-Mu. Hilangkan kegelisahan dan ketakutan. Amin." },
+            { title: "Sukacita dalam TUHAN", verse: "Sukacitamu jadikanlah perlindungan bagimu, sebab kuat TUHAN, Allahmu, yang ada di tengah-tengahmu.", reference: "Zefanya 3:17", content: "<p>Sukacita dalam Tuhan bukanlah berdasarkan keadaan, tetapi berdasarkan kesadaran bahwa Tuhan selalu menyertai kita. Dia adalah Allah yang ada di tengah-tengah kita, yang kuat dan yang menyelamatkan.</p><div class=\"highlight-box\">\"Sukacita dunia bergantung pada apa yang kita miliki, sukacita dalam Tuhan bergantung pada siapa yang memiliki kita.\"</div><p>Meski hari ini penuh tantangan, pilihlah untuk bersukacita. Tuhan ada bersamamu, itu sudah cukup menjadi alasan untuk bersyukur.</p>", prayer: "Bapa, ajar aku untuk menemukan sukacita sejati hanya dalam-Mu. Biarkan sukacita ini menjadi kekuatanku. Amin." },
+            { title: "Pengharapan yang Kokoh", verse: "Allah adalah tempat perlindunganku dan kota bentengku, Allahku yang kupercayai.", reference: "Mazmur 91:2", content: "<p>Dalam dunia yang penuh ketidakpastian, kita membutuhkan fondasi yang kokoh. Tuhan adalah batu karang kita, tempat perlindungan yang aman, kota benteng yang tidak dapat digoyahkan.</p><div class=\"highlight-box\">\"Ketika segala sesuatu di sekitarmu goyah, Tuhan tetap kokoh dan setia.\"</div><p>Jangan bangun pengharapan pada hal-hal yang fana. Bangunlah pada Tuhan yang kekal. Dialah satu-satunya yang dapat kita andalkan sepenuhnya.</p>", prayer: "Ya Tuhan, Engkaulah pengharapanku yang kokoh. Ajar aku untuk selalu berlindung di dalam-Mu. Amin." },
+            { title: "Kasih yang Mempersatukan", verse: "Di atas semuanya itu: kenakanlah kasih, sebagai pengikat yang mempersatukan dan menyempurnakan.", reference: "Kolose 3:14", content: "<p>Kasih adalah pakaian terindah yang dapat dikenakan oleh seorang Kristen. Itu membuat kita mirip dengan Kristus, mempersatukan kita dengan sesama, dan menyempurnakan iman kita.</p><div class=\"highlight-box\">\"Tanpa kasih, semua pelayanan kita sia-sia. Dengan kasih, hal terkecil pun menjadi berharga di mata Tuhan.\"</div><p>Hari ini, kenakanlah kasih dalam setiap tindakanmu. Kasihi mereka yang sulit dikasihi, berilah tanpa mengharapkan balasan.</p>", prayer: "Tuhan, penuhilah hatiku dengan kasih-Mu yang sempurna. Ajar aku untuk mengasihi sesama seperti Engkau mengasihi aku. Amin." },
+            { title: "Pengampunan yang Membebaskan", verse: "Jika kamu mengampuni orang salahnya, Bapamu yang di sorga akan mengampuni kamu juga.", reference: "Matius 6:14", content: "<p>Pengampunan bukanlah tentang memaafkan kesalahan orang lain, tetapi tentang membebaskan diri kita sendiri dari beban kepahitan. Ketika kita mengampuni, kita membuka pintu bagi berkat Tuhan dalam hidup kita.</p><div class=\"highlight-box\">\"Pengampunan adalah hadiah yang kau berikan kepada dirimu sendiri.\"</div><p>Ada seseorang yang perlu kau ampuni hari ini? Jangan tunda lagi. Lepaskan beban itu dan biarkan Tuhan menyembuhkan lukamu.</p>", prayer: "Ya Tuhan, berikanlah aku kekuatan untuk mengampuni seperti Engkau mengampuni aku. Bebaskan aku dari setiap kepahitan. Amin." },
+            { title: "Kekuatan dalam Kelemahan", verse: "Kekuatanku cukup bagimu, sebab kuasa-Ku sempurna dalam kelemahan.", reference: "2 Korintus 12:9", content: "<p>Ketika kita merasa lemah, itulah saat kuasa Tuhan bekerja dengan sempurna. Tuhan tidak mencari orang yang kuat, Dia mencari orang yang rendah hati dan mau mengandalkan Dia sepenuhnya.</p><div class=\"highlight-box\">\"Jangan malu akan kelemahanmu, karena di situlah kuasa Tuhan bersinar paling terang.\"</div><p>Hari ini, jika kamu merasa tidak sanggup, bersukacitalah! Itu berarti Tuhan akan bekerja luar biasa dalam hidupmu.</p>", prayer: "Tuhan, aku mengakui kelemahanku. Kerjakanlah kuasa-Mu yang sempurna dalam hidupku hari ini. Amin." },
+            { title: "Hikmat dari Atas", verse: "Jika ada di antara kamu yang kurang hikmat, hendaklah ia memintanya kepada Allah, yang memberikan kepada semua orang dengan murah hati dan tidak membangkit-bangkit, maka akan diberikan kepadanya.", reference: "Yakobus 1:5", content: "<p>Tuhan tidak pernah membiarkan umat-Nya kekurangan hikmat. Ketika kita datang kepada-Nya dengan rendah hati, Dia akan memberikan pemahaman yang melampaui pengertian manusia.</p><div class=\"highlight-box\">\"Hikmat dari dunia bersifat sementara, tetapi hikmat dari Tuhan kekal dan membawa damai.\"</div><p>Jangan mengandalkan kecerdasanmu sendiri. Andalkanlah Tuhan yang akan menuntunmu dalam setiap keputusan.</p>", prayer: "Ya Tuhan, berikanlah aku hikmat untuk menghadapi setiap tantangan hari ini. Ajar aku untuk mengandalkan-Mu sepenuhnya. Amin." },
+            { title: "Berkat yang Melimpah", verse: "Berbahagialah orang yang mengandalkan TUHAN, yang harapannya adalah TUHAN.", reference: "Yeremia 17:7", content: "<p>Berkat Tuhan tidak selalu berupa materi, seringkali berupa kedamaian hati, kesehatan, atau hubungan yang harmonis. Bersyukurlah untuk setiap berkat, besar maupun kecil.</p><div class=\"highlight-box\">\"Hitunglah berkatmu, maka kamu akan terkejut betapa baiknya Tuhan padamu.\"</div><p>Jangan fokus pada apa yang tidak kau miliki, tetapi syukuri apa yang sudah Tuhan berikan.</p>", prayer: "Bapa yang baik, terima kasih untuk setiap berkat yang Engkau curahkan dalam hidupku. Ajar aku untuk selalu bersyukur. Amin." },
+            { title: "Perlindungan TUHAN", verse: "TUHAN adalah gembalaku, takkan kekurangan aku.", reference: "Mazmur 23:1", content: "<p>Tuhan adalah benteng pertahanan kita yang paling kuat. Di bawah naungan-Nya, kita aman dari segala bahaya. Percayalah bahwa Dia selalu menjaga langkah-langkah kita.</p><div class=\"highlight-box\">\"Tidak ada yang dapat menimpa kita tanpa seizin Bapa di sorga.\"</div><p>Hari ini, pergilah dengan percaya diri karena Tuhan bersamamu.</p>", prayer: "Tuhan, Engkaulah perlindunganku dan kota bentengku. Aku percaya Engkau menjaga setiap langkahku hari ini. Amin." },
+            { title: "Pemeliharaan Ilahi", verse: "Sebab Aku mengetahui rancangan-rancangan apa yang ada pada-Ku mengenai kamu, demikianlah firman TUHAN, yaitu rancangan damai sejahtera dan bukan rancangan kecelakaan, untuk memberikan kepadamu hari depan yang penuh harapan.", reference: "Yeremia 29:11", content: "<p>Tuhan bukan hanya pencipta, Dia juga pemelihara. Dia yang memberi kehidupan juga akan memelihara kehidupan itu. Percayalah pada pemeliharaan-Nya yang sempurna.</p><div class=\"highlight-box\">\"Jika Tuhan memelihara burung-burung di udara, tentu Dia akan memelihara kamu yang jauh lebih berharga.\"</div><p>Jangan khawatir tentang masa depan. Tuhan sudah mengatur semuanya.</p>", prayer: "Bapa, terima kasih karena Engkau pemeliharaanku yang setia. Berikanlah aku kepercayaan bahwa Engkau akan memenuhi setiap kebutuhanku. Amin." },
+            { title: "Rencana yang Indah", verse: "Banyaklah rancangan di hati manusia, tetapi keputusan TUHANlah yang terlaksana.", reference: "Amsal 19:21", content: "<p>Rencana Tuhan mungkin berbeda dari rencanamu, tetapi percayalah bahwa rencana-Nya selalu yang terbaik. Dia melihat gambaran besar yang mungkin tidak kau lihat sekarang.</p><div class=\"highlight-box\">\"Tuhan tidak berjanji jalan yang mudah, tetapi Dia berjanji untuk menyertai.\"</div><p>Serahkan rencanamu kepada Tuhan, dan Dia akan membuatnya indah pada waktunya.</p>", prayer: "Ya Tuhan, aku serahkan rencanaku kepada-Mu. Tuntunlah aku dalam jalan yang Engkau kehendaki. Amin." },
+            { title: "Kesabaran dalam Menanti", verse: "Tetapi orang yang menanti-nantikan TUHAN akan mendapat kekuatan baru: mereka akan naik dengan sayap seperti burung rajawali; mereka akan berlari dan tidak menjadi lesu, mereka akan berjalan dan tidak menjadi lelah.", reference: "Yesaya 40:31", content: "<p>Menanti bukanlah hal yang mudah, tetapi itu adalah bagian dari proses pematangan iman. Ketika kita menanti dengan sabar, Tuhan sedang bekerja di balik layar untuk persiapan yang terbaik.</p><div class=\"highlight-box\">\"Saat kamu menanti, Tuhan sedang mempersiapkan sesuatu yang lebih besar dari yang kamu bayangkan.\"</div><p>Jangan lelah menanti Tuhan. Dia tidak pernah terlambat, Dia selalu tepat waktu.</p>", prayer: "Ya Tuhan, ajar aku untuk bersabar dalam menanti waktu-Mu. Berikanlah kekuatan baru bagi hatiku yang lelah. Amin." },
+            { title: "Ketulusan Hati", verse: "Hendaklah hatimu bersih dari kesalahan yang tersembunyi.", reference: "Mazmur 19:13", content: "<p>Tuhan melihat hati, bukan penampilan luar. Ketulusan hati adalah yang paling berharga di mata-Nya. Jadilah orang yang tulus dalam segala hal.</p><div class=\"highlight-box\">\"Integritas adalah memilih pemikiran yang benar, bukan yang mudah.\"</div><p>Hidup dengan ketulusan memang tidak selalu mudah, tetapi itu adalah jalan yang Tuhan berkati.</p>", prayer: "Tuhan, sucikan hatiku dari segala kepalsuan. Jadikan aku orang yang tulus di hadapan-Mu dan sesama. Amin." },
+            { title: "Kerendahan Hati", verse: "Berjalanlah dengan cermat, bukan seperti orang bebal, tetapi seperti orang arif.", reference: "Efesus 5:15", content: "<p>Kerendahan hati adalah kunci untuk menerima hikmat dan berkat dari Tuhan. Orang yang rendah hati mengakui keterbatasannya dan bersandar pada Tuhan.</p><div class=\"highlight-box\">\"Kerendahan hati bukan berarti merendahkan diri, tetapi menyadari bahwa segala sesuatu adalah anugerah dari Tuhan.\"</div><p>Jadilah seperti anak kecil yang sederhana, yang menerima kerajaan sorga dengan sukacita.</p>", prayer: "Bapa, ajar aku untuk selalu rendah hati. Ingatkan aku bahwa setiap keberhasilan adalah karena anugerah-Mu. Amin." },
+            { title: "Pelayanan yang Tulus", verse: "Karena itu, saudara-saudaraku yang kekasih, berdirilah teguh, jangan goyah, dan giatlah selalu dalam pekerjaan Tuhan, sebab kamu tahu, bahwa dalam Tuhan jerih payahmu tidak sia-sia.", reference: "1 Korintus 15:58", content: "<p>Pelayanan yang tulus tidak mencari pengakuan manusia, tetapi mencari senyum dari Tuhan. Setiap pekerjian kecil yang kita lakukan untuk Tuhan tidak akan sia-sia.</p><div class=\"highlight-box\">\"Tuhan tidak melihat besarnya pelayananmu, Dia melihat besarnya kasihmu dalam melayani.\"</div><p>Teruslah melayani dengan setia, meski tidak ada yang melihat. Tuhan selalu memperhatikan.</p>", prayer: "Tuhan, berikanlah aku hati yang tulus dalam melayani-Mu. Ajar aku untuk tidak mencari pujian manusia, tetapi hanya kerelaan-Mu. Amin." },
+            { title: "Kesetiaan dalam Hal Kecil", verse: "Siapa setia dalam perkara-perkara kecil, ia setia juga dalam perkara-perkara besar.", reference: "Lukas 16:10", content: "<p>Tuhan memperhatikan kesetiaan kita dalam hal-hal kecil. Bagaimana kita menangani tugas kecil menunjukkan karakter kita yang sebenarnya.</p><div class=\"highlight-box\">\"Kesetiaan dalam hal kecil adalah bukti bahwa kita dapat dipercaya dengan hal besar.\"</div><p>Jangan meremehkan pekerjian yang tampak kecil. Setiap langkah setia adalah persiapan untuk tanggung jawab yang lebih besar.</p>", prayer: "Ya Tuhan, ajar aku untuk setia dalam setiap hal, baik kecil maupun besar. Berikanlah ketekunan dalam setiap tugas yang Kau percayakan. Amin." },
+            { title: "Keberanian untuk Maju", verse: "Sebab Allah memberikan kepada kita roh bukan untuk takut, melainkan roh yang membangkitkan kekuatan, kasih dan ketertiban.", reference: "2 Timotius 1:7", content: "<p>Tuhan tidak menciptakan kita untuk hidup dalam ketakutan. Dia memberikan roh keberanian, kasih, dan ketertiban. Hadapi hari ini dengan keberanian dari Tuhan.</p><div class=\"highlight-box\">\"Keberanian bukan berarti tidak takut, tetapi melangkah meski takut karena Tuhan menyertai.\"</div><p>Jangan biarkan ketakutan menghentikanmu. Tuhan sudah memberikan segala yang perlu kau miliki untuk berhasil.</p>", prayer: "Tuhan, berikanlah aku roh keberanian untuk menghadapi setiap tantangan. Hilangkan ketakutan dan ganti dengan keyakinan akan kuasa-Mu. Amin." },
+            { title: "Integritas dalam Hidup", verse: "Jagalah hatimu dengan segala kewaspadaan, karena dari situlah terpancar kehidupan.", reference: "Amsal 4:23", content: "<p>Integritas adalah kesesuaian antara apa yang kita pikir, katakan, dan lakukan. Jaga hatimu dengan sungguh-sungguh, karena dari situlah sumber kehidupan.</p><div class=\"highlight-box\">\"Integritas adalah memilih untuk melakukan yang benar meski tidak ada yang melihat.\"</div><p>Hidup dengan integritas mungkin tidak selalu mudah, tetapi itu adalah fondasi yang kokoh untuk hidup yang diberkati.</p>", prayer: "Bapa, jagalah hatiku agar tetap murni. Berikanlah aku kekuatan untuk hidup dengan integritas dalam setiap situasi. Amin." },
+            { title: "Keseimbangan Spiritual", verse: "Tetapi carilah dahulu Kerajaan Allah dan kebenarannya, maka semuanya itu akan ditambahkan kepadamu.", reference: "Matius 6:33", content: "<p>Keseimbangan dalam hidup dimulai dari prioritas yang benar. Ketika kita menaruh Tuhan di tempat pertama, segala sesuatu akan jatuh pada tempatnya.</p><div class=\"highlight-box\">\"Jangan biarkan kesibukan dunia menggeser Tuhan dari tempat pertama dalam hidupmu.\"</div><p>Luangkan waktu untuk Tuhan setiap hari. Dialah sumber kekuatan dan hikmat untuk segala sesuatu.</p>", prayer: "Tuhan, ajar aku untuk mengutamakan-Mu dalam setiap aspek hidupku. Berikanlah keseimbangan antara pekerjaan, keluarga, dan pelayanan. Amin." },
+            { title: "Kedalaman Kasih Kristus", verse: "Sehingga kamu dapat bersama-sama dengan segala orang kudus memahami lebar dan panjang dan tinggi dan dalamnya kasih Kristus.", reference: "Efesus 3:18", content: "<p>Kasih Kristus tidak dapat diukur. Itu selebar samudra, setinggi langit, sedalam lautan. Tidak ada yang dapat memisahkan kita dari kasih-Nya.</p><div class=\"highlight-box\">\"Kasih Kristus adalah dasar dari segala sesuatu. Di situlah kita menemukan identitas dan tujuan hidup.\"</div><p>Renungkan kedalaman kasih Kristus hari ini. Biarkan itu mengubah cara kamu melihat diri sendiri dan sesama.</p>", prayer: "Yesus, terima kasih untuk kasih-Mu yang tak terbatas. Ajar aku untuk mengenal kasih-Mu lebih dalam setiap hari. Amin." },
+            { title: "Kebenaran yang Membebaskan", verse: "Dan kamu akan mengetahui kebenaran, dan kebenaran itu akan memerdekakan kamu.", reference: "Yohanes 8:32", content: "<p>Kebenaran Tuhan bukan hanya informasi, tetapi kekuatan yang membebaskan. Membebaskan kita dari dosa, dari kebohongan, dari belenggu masa lalu.</p><div class=\"highlight-box\">\"Kebenaran dunia mengikat, kebenaran Tuhan membebaskan.\"</div><p>Hidup dalam kebenaran memang terkadang sulit, tetapi itu adalah jalan menuju kebebasan sejati.</p>", prayer: "Ya Tuhan, bimbing aku dalam kebenaran-Mu. Bebaskan aku dari setiap kebohongan dan ketakutan. Amin." },
+            { title: "Jalan yang Lurus", verse: "Percayalah kepada TUHAN dengan segenap hatimu, dan janganlah bersandar kepada pengertianmu sendiri. Akuilah Dia dalam segala lakumu, maka Ia akan meluruskan jalanmu.", reference: "Amsal 3:5-6", content: "<p>Manusia merencanakan, tetapi Tuhan yang menentukan. Ketika kita mempercayakan jalan kita kepada-Nya, Dia akan membuatnya lurus dan berujung pada kebaikan.</p><div class=\"highlight-box\">\"Jalan yang lurus menurut Tuhan mungkin berliku menurut manusia, tetapi percayalah Dia tahu jalan terbaik.\"</div><p>Jangan pahamkan segala sesuatu sendiri. Bawa setiap keputusan kepada Tuhan dalam doa.</p>", prayer: "Bapa, aku percayakan jalan hidupku kepada-Mu. Luruskanlah setiap langkahku sesuai dengan rencana-Mu yang sempurna. Amin." },
+            { title: "Cahaya di Jalan Kita", verse: "Firman-Mu adalah pelita bagi kakiku dan terang bagi jalanku.", reference: "Mazmur 119:105", content: "<p>Dalam kegelapan dunia ini, kita membutuhkan penerang. Firman Tuhan adalah pelita yang tidak pernah padam, terang yang selalu menuntun kita ke jalan yang benar.</p><div class=\"highlight-box\">\"Tanpa firman Tuhan, kita akan tersesat dalam kegelapan. Dengan firman-Nya, kita selalu menemukan arah.\"</div><p>Baca dan renungkan firman Tuhan setiap hari. Biarkan itu menjadi penuntun dan kekuatanmu.</p>", prayer: "Tuhan, terima kasih untuk firman-Mu yang menjadi terang bagi jalan hidupku. Ajar aku untuk selalu mengandalkan kebenaran-Mu. Amin." },
+            { title: "Suara yang Menenangkan", verse: "Biarlah hatimu tidak gelisah; percayalah kepada Allah, percayalah juga kepada-Ku.", reference: "Yohanes 14:1", content: "<p>Suara Tuhan tidak selalu datang dengan gempita, seringkali dengan lembut menenangkan hati yang gelisah. Dia berkata 'Tenanglah, Aku ini Tuhan.'</p><div class=\"highlight-box\">\"Dalam keriuhan dunia, belajarlah mendengar suara lembut Tuhan yang menenangkan.\"</div><p>Hari ini, jika hatimu gelisah, dengarkan suara Tuhan. Percayalah bahwa Dia menguasai segala sesuatu.</p>", prayer: "Yesus, tenangkan hatiku yang gelisah. Ajar aku untuk mendengar suara-Mu yang lembut dan menenangkan. Amin." },
+            { title: "Sentuhan yang Menyembuhkan", verse: "Tetapi bagi kamu, yang takut akan namaku, akan terbit surya kebenaran dengan kesembuhan pada sayapnya.", reference: "Maleakhi 4:2", content: "<p>Tuhan adalah Allah yang menyembuhkan. Sentuhan-Nya dapat menyembuhkan luka fisik, emosional, maupun spiritual. Datanglah kepada-Nya dengan iman.</p><div class=\"highlight-box\">\"Tuhan tidak hanya menyembuhkan gejala, Dia menyembuhkan akar masalah.\"</div><p>Apapun luka yang kau bawa hari ini, bawa kepada Tuhan. Dia siap menyembuhkan dan memulihkan.</p>", prayer: "Tuhan yang menyembuhkan, sentuhlah bagian hidupku yang sakit dan luka. Berikanlah kesembuhan dan pemulihan. Amin." },
+            { title: "Pelukan yang Hangat", verse: "Seperti seorang ayah menyayangi anak-anaknya, demikianlah TUHAN menyayangi orang yang takut akan Dia.", reference: "Mazmur 103:13", content: "<p>Tuhan bukanlah penguasa yang jauh dan dingin. Dia adalah Bapa yang penuh kasih, yang selalu siap memeluk anak-anak-Nya dengan mesra.</p><div class=\"highlight-box\">\"Dalam pelukan Tuhan, kita menemukan keamanan, penerimaan, dan kasih yang tanpa syarat.\"</div><p>Hari ini, rasakan pelukan kasih Tuhan. Dia menerimamu apa adanya, dengan segala kelemahan dan kekuranganmu.</p>", prayer: "Bapa yang penuh kasih, terima kasih karena Engkau selalu siap memelukku. Ajar aku untuk berlari ke dalam pelukan-Mu setiap saat. Amin." },
+            { title: "Kasih yang Tak Berhingga", verse: "Tinggikanlah TUHAN, Allahmu, sebab Ia telah memberikan kepadamu kekuatan untuk berhasil.", reference: "Ulangan 28:1-2", content: "<p>Kasih Tuhan tidak terbatas oleh waktu, tempat, atau keadaan. Itu adalah kasih yang kekal, yang sama kemarin, hari ini, dan selamanya.</p><div class=\"highlight-box\">\"Tidak ada kedalaman laut yang dapat mengukur kasih Tuhan, tidak ada ketinggian gunung yang dapat mencapainya.\"</div><p>Renungkan kasih Tuhan yang tak berhingga ini. Biarkan itu menjadi fondasi dari identitasmu.</p>", prayer: "Ya Tuhan, terima kasih untuk kasih-Mu yang tak terbatas. Ajar aku untuk selalu hidup dalam kesadaran akan kasih-Mu. Amin." },
+            { title: "Anugerah yang Cukup", verse: "Anugerah-Ku cukup bagimu, sebab kekuatanku sempurna dalam kelemahan.", reference: "2 Korintus 12:9", content: "<p>Anugerah Tuhan selalu cukup untuk setiap musim hidup. Ketika kita merasa tidak sanggup, anugerah-Nya lah yang menopang kita.</p><div class=\"highlight-box\">\"Anugerah bukan berarti hidup tanpa masalah, tetapi hidup dengan kuasa Tuhan yang menopang.\"</div><p>Jangan mengeluh atas kelemahanmu. Di situlah anugerah Tuhan bersinar paling terang.</p>", prayer: "Tuhan, terima kasih untuk anugerah-Mu yang selalu cukup. Ajar aku untuk mengandalkan kekuatan-Mu dalam setiap kelemahanku. Amin." },
+            { title: "Kuasa Kebangkitan", verse: "Kekuatanku dan mazmurku ialah TUHAN, dan Ia telah menjadi keselamatanku.", reference: "Mazmur 118:14", content: "<p>Kuasa kebangkitan Yesus bukan hanya sejarah, tetapi realitas yang hidup dalam kita. Kuasa yang sama yang membangkitkan Yesus dari kematian, menghidupkan kita sekarang.</p><div class=\"highlight-box\">\"Kuasa kebangkitan bukan hanya untuk masa depan, tetapi untuk kehidupan sekarang ini.\"</div><p>Hidup dengan kesadaran akan kuasa kebangkitan dalam dirimu. Tidak ada yang mustahil bagi Tuhan.</p>", prayer: "Ya Tuhan, aku percaya akan kuasa kebangkitan-Mu yang hidup dalam diriku. Kerjakanlah hal-hal yang luar biasa melalui hidupku. Amin." },
+            { title: "Kemenangan dalam Kristus", verse: "Tetapi berkat Allah yang memberikan kemenangan kepada kita dalam Kristus Yesus.", reference: "1 Korintus 15:57", content: "<p>Dalam Kristus, kita sudah lebih dari pemenang. Bukan karena kekuatan kita, tetapi karena kemenangan yang sudah diperoleh Kristus di kayu salib.</p><div class=\"highlight-box\">\"Kemenangan bukan berarti tidak ada pertempuran, tetapi menang karena Kristus sudah menang.\"</div><p>Hari ini, hadapi setiap tantangan dengan keyakinan bahwa kemenangan sudah menjadi bagianmu dalam Kristus.</p>", prayer: "Tuhan, terima kasih untuk kemenangan yang Engkau berikan dalam Kristus. Ajar aku untuk hidup sebagai pemenang setiap hari. Amin." },
+            { title: "Persatuan dalam Tubuh Kristus", verse: "Sebab sama seperti tubuh adalah satu dan anggota-anggota banyak, demikianlah Kristus.", reference: "1 Korintus 12:12", content: "<p>Kita adalah bagian dari satu tubuh, yaitu tubuh Kristus. Setiap anggota memiliki peran penting, tidak ada yang lebih penting dari yang lain.</p><div class=\"highlight-box\">\"Persatuan bukan berarti keseragaman, tetapi berbagai anggota yang bekerja sama dalam kasih.\"</div><p>Hargailah peran setiap anggota tubuh Kristus. Kita saling membutuhkan untuk tumbuh bersama.</p>", prayer: "Tuhan, ajar aku untuk menghargai persatuan dalam tubuh Kristus. Berikanlah kerendahan hati untuk bekerja sama dengan sesama anggota-Mu. Amin." },
+            { title: "Karunia Roh Kudus", verse: "Tetapi kamu akan menerima kuasa, kalau Roh Kudus turun ke atas kamu.", reference: "Kisah Para Rasul 1:8", content: "<p>Roh Kudus bukan hanya untuk beberapa orang pilihan, tetapi untuk setiap orang yang percaya. Dia memberikan kuasa untuk menjadi saksi dan karunia untuk melayani.</p><div class=\"highlight-box\">\"Roh Kudus bukan hanya penghibur, tetapi juga pemberi kuasa dan karunia.\"</div><p>Terimalah Roh Kudus dengan iman. Biarkan Dia bekerja dalam hidupmu dengan kuasa dan karunia-Nya.</p>", prayer: "Roh Kudus, turunlah atas hidupku. Berikanlah kuasa dan karunia-Mu untuk menjadi saksi yang efektif bagi Kristus. Amin." },
+            { title: "Buah Roh yang Segar", verse: "Tetapi buah Roh ialah kasih, sukacita, damai sejahtera, kesabaran, kemurahan, kebaikan, kesetiaan, kelemahlembutan, penguasaan diri.", reference: "Galatia 5:22-23", content: "<p>Buah Roh bukanlah hasil usaha manusia, tetapi hasil dari hubungan yang intim dengan Tuhan. Semakin kita menghabiskan waktu dengan-Nya, semakin banyak buah yang terlihat.</p><div class=\"highlight-box\">\"Buah Roh adalah bukti kehidupan rohani yang sehat dan hubungan yang dekat dengan Tuhan.\"</div><p>Periksa buah dalam hidupmu hari ini. Apakah kasih, sukacita, dan damai terlihat dalam kehidupanmu?</p>", prayer: "Roh Kudus, berkembangbiaklah dalam hidupku dan hasilkanlah buah yang melimpah. Ajar aku untuk tinggal di dalam Dia. Amin." },
+            { title: "Iman yang Bertumbuh", verse: "Sebab iman adalah dasar dari segala sesuatu yang kita harapkan dan bukti dari segala sesuatu yang tidak kita lihat.", reference: "Ibrani 11:1", content: "<p>Iman bukanlah sesuatu yang statis, tetapi harus terus bertumbuh. Seperti tanaman yang perlu disiram, iman juga perlu dipelihara melalui firman dan doa.</p><div class=\"highlight-box\">\"Iman yang stagnan akan layu, iman yang dirawat akan berbuah lebat.\"</div><p>Rawatlah imanmu hari ini. Baca firman, berdoa, dan taati setiap pimpinan Tuhan.</p>", prayer: "Tuhan, perbesarlah imanku. Ajar aku untuk percaya kepada-Mu meski dalam keadaan yang tidak kulihat. Amin." },
+            { title: "Penyerahan yang Sempurna", verse: "Karena itu, persembahkanlah tubuhmu sebagai persembahan yang hidup, yang kudus dan yang berkenan kepada Allah.", reference: "Roma 12:1", content: "<p>Penyerahan yang sempurna bukan berarti menyerahkan sebagian, tetapi seluruh hidup kita. Tubuh, pikiran, waktu, dan talenta kita adalah persembahan yang hidup bagi Tuhan.</p><div class=\"highlight-box\">\"Penyerahan sejati adalah ketika kita berkata: 'Tuhan, aku serahkan segala sesuatu kepada-Mu.'\"</div><p>Apakah ada bagian hidupmu yang belum kau serahkan? Hari ini, serahkanlah sepenuhnya kepada Tuhan.</p>", prayer: "Bapa, aku persembahkan seluruh hidupku kepada-Mu. Ambillah dan pergunakanlah sesuai dengan kehendak-Mu yang sempurna. Amin." },
+            { title: "Ketaatan yang Berkati", verse: "Jika kamu taat dan setia, kamu akan makan hasil yang terbaik dari bumi.", reference: "Yesaya 1:19", content: "<p>Ketaatan adalah kunci untuk membuka berkat Tuhan. Bukan ketaatan karena terpaksa, tetapi ketaatan yang lahir dari kasih dan iman.</p><div class=\"highlight-box\">\"Ketaatan membuka pintu berkat, ketidaktaatan menutupnya.\"</div><p>Tuhan tidak meminta kesempurnaan, Dia meminta ketaatan. Taatilah firman-Nya, dan berkat akan mengikuti.</p>", prayer: "Tuhan, ajar aku untuk taat kepada-Mu dalam segala hal. Berikanlah kekuatan untuk melakukan firman-Mu dengan setia. Amin." },
+            { title: "Pujian yang Merdu", verse: "Pujilah TUHAN, hai jiwaku, dan segala yang ada di dalamku, pujilah nama-Nya yang kudus.", reference: "Mazmur 103:1", content: "<p>Pujian adalah senjata yang ampuh. Itu mengubah fokus dari masalah kita kepada kebesaran Tuhan. Pujian membawa kita ke hadirat-Nya.</p><div class=\"highlight-box\">\"Pujian bukan hanya untuk saat senang, tetapi terutama untuk saat sulit.\"</div><p>Hari ini, meski dalam keadaan apapun, pujilah Tuhan. Biarkan pujian menjadi napas hidupmu.</p>", prayer: "Ya Tuhan, ajar aku untuk selalu memuji-Mu dalam segala keadaan. Biarkan mulutku penuh dengan pujian bagi Nama-Mu yang kudus. Amin." },
+            { title: "Syukur yang Terus-menerus", verse: "Mengucap syukurlah dalam segala hal, sebab itulah yang dikehendaki Allah di dalam Kristus Yesus bagi kamu.", reference: "1 Tesalonika 5:18", content: "<p>Syukur adalah pilihan, bukan kondisi. Kita bisa bersyukur bukan karena segala sesuatu baik, tetapi karena Tuhan baik dalam segala sesuatu.</p><div class=\"highlight-box\">\"Syukur mengubah apa yang kita miliki menjadi cukup, dan apa yang kita tidak miliki menjadi tidak penting.\"</div><p>Hitunglah berkatmu hari ini. Kamu akan terkejut betapa banyaknya yang sudah Tuhan berikan.</p>", prayer: "Bapa, ajar aku untuk selalu bersyukur dalam segala keadaan. Terima kasih untuk setiap berkat yang Engkau curahkan dalam hidupku. Amin." },
+            { title: "Doa yang Dijawab", verse: "Jika kamu tinggal di dalam Aku dan firman-Ku tinggal di dalam kamu, mintalah apa saja yang kamu kehendaki, dan itu akan diberikan kepadamu.", reference: "Yohanes 15:7", content: "<p>Doa yang dijawab bukanlah doa yang ajaib, tetapi doa yang sesuai dengan kehendak Tuhan. Ketika kita tinggal di dalam Dia, doa kita akan selaras dengan hati-Nya.</p><div class=\"highlight-box\">\"Doa yang paling dijawab adalah doa yang meminta agar hati kita selaras dengan hati Tuhan.\"</div><p>Jangan berhenti berdoa. Tuhan mendengar setiap doa, dan Dia menjawab pada waktu yang terbaik.</p>", prayer: "Tuhan, ajar aku untuk berdoa sesuai dengan kehendak-Mu. Berikanlah ketekunan dalam doa dan iman bahwa Engkau menjawab. Amin." },
+            { title: "Firman yang Hidup", verse: "Sebab firman Allah hidup dan kuat dan lebih tajam dari pada pedang bermata dua mana pun.", reference: "Ibrani 4:12", content: "<p>Firman Tuhan bukan hanya tulisan di atas kertas, tetapi hidup dan berkuasa. Itu dapat menembus hati yang paling keras dan membawa transformasi.</p><div class=\"highlight-box\">\"Firman Tuhan adalah makanan rohani yang memberi kehidupan dan pertumbuhan.\"</div><p>Jadikan firman Tuhan sebagai prioritas setiap hari. Biarkan itu menjadi penuntun dan kekuatanmu.</p>", prayer: "Tuhan, bukakanlah mata hatiku untuk melihat kekayaan dalam firman-Mu. Ajar aku untuk menghidupi setiap kebenaran-Mu. Amin." },
+            { title: "Janji yang Pasti", verse: "Sebab sekali Ia berfirma, sekali untuk dua kali aku mendengar, bahwa kuasa adalah kepunyaan Allah.", reference: "Mazmur 62:12", content: "<p>Janji Tuhan adalah ya dan amen. Dia tidak dapat berbohong dan tidak akan pernah gagal memenuhi janji-janji-Nya. Percayalah pada kebenaran firman-Nya.</p><div class=\"highlight-box\">\"Janji manusia bisa gagal, janji Tuhan pasti terlaksana.\"</div><p>Peganglah janji-janji Tuhan dalam hidupmu. Itu adalah jaminan yang kokoh dalam dunia yang berubah.</p>", prayer: "Ya Tuhan, aku percaya pada setiap janji-Mu. Berikanlah iman untuk menantikan penggenapan janji-janji-Mu dalam hidupku. Amin." },
+            { title: "Penghiburan dalam Duka", verse: "Terpujilah Allah, Bapa dari Tuhan kita Yesus Kristus, Bapa yang penuh belas kasihan dan Allah sumber segala penghiburan.", reference: "2 Korintus 1:3", content: "<p>Tuhan adalah Bapa yang penuh belas kasihan. Dia melihat setiap air mata dan mendengar setiap keluhan. Penghiburan-Nya adalah nyata dan menyeluruh.</p><div class=\"highlight-box\">\"Dalam pelukan Tuhan, air mata dihapus dan hati yang hancur dipulihkan.\"</div><p>Jika hari ini kamu berduka, datanglah kepada Tuhan. Dia siap menghibur dan mengganti kesedihan dengan sukacita.</p>", prayer: "Bapa yang penuh belas kasihan, hiburlah hatiku yang sedih. Gantikanlah kesedihanku dengan sukacita dari-Mu. Amin." },
+            { title: "Keadilan Allah", verse: "Sebab TUHAN mengasihi keadilan dan tidak meninggalkan orang-orang yang setia kepada-Nya.", reference: "Mazmur 37:28", content: "<p>Keadilan Tuhan tidak selalu datang dengan cepat menurut waktu manusia, tetapi itu pasti datang. Tuhan tidak pernah tidur dan tidak pernah lupa pada umat-Nya.</p><div class=\"highlight-box\">\"Keadilan Tuhan mungkin tertunda, tetapi tidak pernah gagal.\"</div><p>Jangan ambil hakim sendiri. Serahkanlah keadilan kepada Tuhan yang Maha Adil.</p>", prayer: "Tuhan yang adil, aku percayakan setiap ketidakadilan kepada-Mu. Berikanlah kekuatan untuk menunggu waktu-Mu yang sempurna. Amin." },
+            { title: "Pembalasan milik Tuhan", verse: "Janganlah kamu membalas kejahatan dengan kejahatan. Berbuatlah baik kepada orang yang membencimu.", reference: "1 Tesalonika 5:15", content: "<p>Pembalasan adalah hak Tuhan, bukan hak kita. Ketika kita memaafkan dan berbuat baik, kita membebaskan diri dari belenggu kepahitan.</p><div class=\"highlight-box\">\"Memaafkan bukan berarti membenarkan kesalahan, tetapi membebaskan diri dari racun kebencian.\"</div><p>Biarkan Tuhan yang membalas. Fokuslah pada panggilanmu untuk mengasihi dan berbuat baik.</p>", prayer: "Tuhan, berikanlah aku kekuatan untuk memaafkan dan tidak membalas kejahatan. Serahkanlah setiap pembalasan kepada-Mu. Amin." },
+            { title: "Kemurahan yang Melampaui", verse: "Sebab kamu tahu, bahwa kamu telah ditebus dari cara hidupmu yang sia-sia yang kamu warisi dari nenek moyangmu itu bukan dengan barang yang fana, bukan pula dengan perak atau emas, melainkan dengan darah yang mahal dari Kristus.", reference: "1 Petrus 1:18-19", content: "<p>Kemurahan Tuhan melampaui segala pengertian. Kita yang tidak layak, ditebus dengan darah yang mahal. Itulah bukti kasih yang tak terbatas.</p><div class=\"highlight-box\">\"Kita tidak dapat membeli keselamatan, itu adalah hadiah kemurahan Tuhan.\"</div><p>Hargailah kemurahan yang kau terima. Hiduplah sebagai pribadi yang ditebus dan dikasihi.</p>", prayer: "Tuhan, terima kasih untuk kemurahan-Mu yang melampaui pengertian. Ajar aku untuk hidup layak sebagai orang yang telah ditebus. Amin." },
+            { title: "Keagungan Allah", verse: "Ya TUHAN, Tuhan kami, betapa mulianya nama-Mu di seluruh bumi!", reference: "Mazmur 8:2", content: "<p>Keagungan Tuhan tidak dapat dijelaskan dengan kata-kata. Dia adalah Pencipta alam semesta, Yang Mahakuasa, dan Mahabesar. Namun Dia peduli pada setiap detail hidup kita.</p><div class=\"highlight-box\">\"Tuhan yang mengatur galaksi juga mengatur hidupmu.\"</div><p>Renungkan keagungan Tuhan hari ini. Biarkan itu membawa takut akan Tuhan dan kekaguman akan kebesaran-Nya.</p>", prayer: "Ya Tuhan yang maha agung, aku bersujud dalam kekaguman akan kebesaran-Mu. Ajar aku untuk selalu menghormati dan memuliakan Nama-Mu. Amin." }
         ];
 
-        // LAGU ROHANI DATABASE - Menggunakan ID video dan thumbnail
-        const worshipSongs = [
-            { title: "10.000 Reasons (Bless the Lord)", artist: "Matt Redman", id: "DXDGE_lRI0E", category: "Pujian" },
-            { title: "What A Beautiful Name", artist: "Hillsong Worship", id: "nQWFzMvCfLE", category: "Pujian" },
-            { title: "Goodness of God", artist: "Bethel Music", id: "n0FBb6hnwTo", category: "Pujian" },
-            { title: "Way Maker", artist: "Sinach", id: "HgrXU5tphZs", category: "Pujian" },
-            { title: "Tak Terbatas", artist: "JPCC Worship", id: "4bH6j8y7CE0", category: "Pujian Indonesia" },
-            { title: "Ku Mau Cinta Yesus", artist: "Sari Simorangkir", id: "8X5a-0l1C0c", category: "Pujian Indonesia" },
-            { title: "Kemenangan Terjadi Di Sini", artist: "JPCC Worship", id: "3RjX8k1-5Yw", category: "Pujian Indonesia" },
-            { title: "Roh-Mu Yang Hidup", artist: "Symphony Worship", id: "5QJ9QZ8vXxQ", category: "Pujian Indonesia" }
-        ];
+        // Generate data untuk 365 hari dengan variasi
+        function generateFullYearData() {
+            const fullData = [];
+            const titles = [
+                "Hikmat dari Atas", "Berkat yang Melimpah", "Perlindungan TUHAN", "Pemeliharaan Ilahi",
+                "Rencana yang Indah", "Kesabaran dalam Menanti", "Ketulusan Hati", "Kerendahan Hati",
+                "Pelayanan yang Tulus", "Kesetiaan dalam Hal Kecil", "Keberanian untuk Maju", "Integritas dalam Hidup",
+                "Keseimbangan Spiritual", "Kedalaman Kasih Kristus", "Kebenaran yang Membebaskan", "Jalan yang Lurus",
+                "Cahaya di Jalan Kita", "Suara yang Menenangkan", "Sentuhan yang Menyembuhkan", "Pelukan yang Hangat",
+                "Kasih yang Tak Berhingga", "Anugerah yang Cukup", "Kuasa Kebangkitan", "Kemenangan dalam Kristus",
+                "Persatuan dalam Tubuh Kristus", "Karunia Roh Kudus", "Buah Roh yang Segar", "Iman yang Bertumbuh",
+                "Penyerahan yang Sempurna", "Ketaatan yang Berkati", "Pujian yang Merdu", "Syukur yang Terus-menerus",
+                "Doa yang Dijawab", "Firman yang Hidup", "Janji yang Pasti", "Penghiburan dalam Duka",
+                "Keadilan Allah", "Pembalasan milik Tuhan", "Kemurahan yang Melampaui", "Keagungan Allah"
+            ];
+            
+            const verses = [
+                { text: "Jika ada di antara kamu yang kurang hikmat, hendaklah ia memintanya kepada Allah.", ref: "Yakobus 1:5" },
+                { text: "Berbahagialah orang yang mengandalkan TUHAN, yang harapannya adalah TUHAN.", ref: "Yeremia 17:7" },
+                { text: "TUHAN adalah gembalaku, takkan kekurangan aku.", ref: "Mazmur 23:1" },
+                { text: "Sebab Aku mengetahui rancangan-rancangan apa yang ada pada-Ku.", ref: "Yeremia 29:11" },
+                { text: "Tetapi orang yang menanti-nantikan TUHAN akan mendapat kekuatan baru.", ref: "Yesaya 40:31" },
+                { text: "Hendaklah hatimu tidak gelisah; percayalah kepada Allah, percayalah juga kepada-Ku.", ref: "Yohanes 14:1" },
+                { text: "Segala sesuatu dapat kutanggung di dalam Dia yang memberi kekuatan kepadaku.", ref: "Filipi 4:13" },
+                { text: "Dan ketahuilah, bahwa Aku menyertai kamu senantiasa.", ref: "Matius 28:20" },
+                { text: "Sebab di mana ada roh TUHAN, di situ ada kemerdekaan.", ref: "2 Korintus 3:17" },
+                { text: "Tetapi yang menjadi kebanggaanku, ialah salib Tuhan kita Yesus Kristus.", ref: "Galatia 6:14" }
+            ];
 
-        let currentVerseIndex = 0;
-        let currentWorshipIndex = 0;
+            const contents = [
+                "<p>Tuhan tidak pernah membuat kita takut. Roh yang Dia berikan adalah roh kekuatan, bukan ketakutan. Hari ini, bangkitlah dengan keberanian...</p><div class=\"highlight-box\">\"Hikmat dari dunia bersifat sementara, tetapi hikmat dari Tuhan kekal dan membawa damai.\"</div><p>Jangan mengandalkan kecerdasanmu sendiri. Andalkanlah Tuhan yang akan menuntunmu dalam setiap keputusan.</p>",
+                "<p>Seperti domba yang dipelihara gembala, begitulah kita dipelihara Tuhan. Dia tahu kebutuhan kita sebelum kita minta...</p><div class=\"highlight-box\">\"Hitunglah berkatmu, maka kamu akan terkejut betapa baiknya Tuhan padamu.\"</div><p>Jangan fokus pada apa yang tidak kau miliki, tetapi syukuri apa yang sudah Tuhan berikan.</p>",
+                "<p>Kita sering mencoba memikul beban sendiri, tetapi Tuhan mengajak kita untuk menyerahkan semuanya kepada-Nya...</p><div class=\"highlight-box\">\"Tidak ada yang dapat menimpa kita tanpa seizin Bapa di sorga.\"</div><p>Hari ini, pergilah dengan percaya diri karena Tuhan bersamamu.</p>",
+                "<p>Bukan dengan kekuatan kita sendiri, tetapi dengan kuasa Dia yang tinggal dalam kita. Hari ini, andalkanlah Dia...</p><div class=\"highlight-box\">\"Jika Tuhan memelihara burung-burung di udara, tentu Dia akan memelihara kamu yang jauh lebih berharga.\"</div><p>Jangan khawatir tentang masa depan. Tuhan sudah mengatur semuanya.</p>",
+                "<p>Salib adalah bukti kasih Allah yang tak terbatas. Mari kita hidup dalam terang kasih karunia ini...</p><div class=\"highlight-box\">\"Tuhan tidak berjanji jalan yang mudah, tetapi Dia berjanji untuk menyertai.\"</div><p>Serahkan rencanamu kepada Tuhan, dan Dia akan membuatnya indah pada waktunya.</p>"
+            ];
 
-        // Initialize
+            const prayers = [
+                "Ya Tuhan, berikanlah aku hikmat untuk menghadapi setiap tantangan hari ini. Ajar aku untuk mengandalkan-Mu sepenuhnya. Amin.",
+                "Bapa, terima kasih karena Engkau gembalaku yang baik. Peliharalah aku dalam kasih-Mu hari ini. Amin.",
+                "Tuhan, aku serahkan segala kekuatiranku kepada-Mu. Peganglah tanganku dan bimbinglah langkahku hari ini. Amin.",
+                "Yesus, aku percaya kuasa-Mu sempurna dalam kelemahanku. Kerjakanlah yang mustahil dalam hidupku hari ini. Amin.",
+                "Bapa, ajar aku untuk selalu mengingat salib-Mu dan hidup dalam kasih karunia-Mu setiap hari. Amin."
+            ];
+
+            const startDate = new Date('2024-01-01');
+            
+            for (let i = 0; i < 365; i++) {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + i);
+                
+                const baseIndex = i % devotionDatabase.length;
+                const verseIndex = i % verses.length;
+                const contentIndex = i % contents.length;
+                const prayerIndex = i % prayers.length;
+                const titleIndex = i % titles.length;
+                
+                // Mix data untuk variasi
+                fullData.push({
+                    date: currentDate.toISOString().split('T')[0],
+                    title: i < 40 ? devotionDatabase[baseIndex].title : titles[titleIndex],
+                    verse: i < 40 ? devotionDatabase[baseIndex].verse : verses[verseIndex].text,
+                    reference: i < 40 ? devotionDatabase[baseIndex].reference : verses[verseIndex].ref,
+                    content: i < 40 ? devotionDatabase[baseIndex].content : contents[contentIndex],
+                    prayer: i < 40 ? devotionDatabase[baseIndex].prayer : prayers[prayerIndex]
+                });
+            }
+            
+            return fullData;
+        }
+
+        // Inisialisasi database lengkap
+        const fullDatabase = generateFullYearData();
+
+        // State untuk tanggal yang ditampilkan
+        let currentDisplayDate = new Date();
+
+        // Fungsi untuk mendapatkan renungan berdasarkan tanggal
+        function getDevotionByDate(date) {
+            const startOfYear = new Date(date.getFullYear(), 0, 0);
+            const diff = date - startOfYear;
+            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const index = dayOfYear % 365;
+            return fullDatabase[index];
+        }
+
+        // Fungsi untuk menampilkan renungan
+        function displayDevotion(date) {
+            const devotion = getDevotionByDate(date);
+            
+            // Update tanggal
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = date.toLocaleDateString('id-ID', options);
+            
+            document.getElementById('devotion-date').textContent = dateStr;
+            document.getElementById('current-date').textContent = dateStr;
+            
+            // Update konten
+            document.getElementById('daily-verse').textContent = devotion.verse;
+            document.getElementById('verse-reference').textContent = '— ' + devotion.reference;
+            document.getElementById('devotion-title').textContent = devotion.title;
+            document.getElementById('devotion-text').innerHTML = devotion.content;
+            document.getElementById('prayer-text').textContent = devotion.prayer;
+        }
+
+        // Fungsi untuk ganti tanggal
+        function changeDate(days) {
+            currentDisplayDate.setDate(currentDisplayDate.getDate() + days);
+            displayDevotion(currentDisplayDate);
+        }
+
+        // Inisialisasi saat load
         document.addEventListener('DOMContentLoaded', function() {
-            updateDateDisplay();
-            loadDevotional();
-            initVerseSection();
-            loadWorshipSongs();
+            displayDevotion(currentDisplayDate);
         });
 
-        function updateDateDisplay() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateStr = now.toLocaleDateString('id-ID', options);
-            document.getElementById('current-date-display').textContent = dateStr;
-            document.getElementById('verse-date-display').textContent = dateStr;
-        }
-
-        function switchTab(tabName) {
-            document.getElementById('section-devotional').classList.add('hidden');
-            document.getElementById('section-verse').classList.add('hidden');
-            document.getElementById('section-worship').classList.add('hidden');
-            document.getElementById('section-prayer-support').classList.add('hidden');
-            
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            
-            document.getElementById('section-' + tabName).classList.remove('hidden');
-            document.getElementById('nav-' + tabName).classList.add('active');
-            
-            document.getElementById('mobile-menu').classList.add('hidden');
-            window.scrollTo(0, 0);
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        // RENUNGAN FUNCTIONS
-        async function loadDevotional() {
-            const loadingEl = document.getElementById('devotional-loading');
-            const contentEl = document.getElementById('devotional-content');
-            const errorEl = document.getElementById('devotional-error');
-            
-            try {
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                const data = {
-                    title: "Kuatkan Hatimu di Dalam Tuhan",
-                    verseRef: "Yosua 1:9",
-                    verseText: "Bukankah telah kuperintahkan kepadamu: kuatkan dan teguhkanlah hatimu? Janganlah takut dan janganlah patah hati, sebab TUHAN, Allahmu, menyertai engkau, ke manapun engkau pergi.",
-                    body: `
-                        <p class="mb-4">Di tengah situasi dunia yang penuh ketidakpastian, Tuhan memanggil kita untuk kuat dan teguh. Bukan dengan kekuatan kita sendiri, tetapi karena Dia menyertai kita.</p>
-                        <p class="mb-4">Ketika Yosua dipanggil untuk memimpin bangsa Israel menggantikan Musa, dia pasti merasa takut dan tidak mampu. Tapi Tuhan berkali-kali menegaskan: "Kuatkan dan teguhkanlah hatimu!"</p>
-                        <p class="mb-4">Kata "menyertai" dalam bahasa Ibrani adalah "yada" yang berarti Tuhan hadir secara aktif dalam setiap aspek hidup kita. Dia tidak hanya melihat dari jauh, tetapi Dia berjalan bersama kita.</p>
-                        <p class="font-semibold text-slate-800 mt-6">Renungan Hari Ini:</p>
-                        <p>Apa yang membuatmu takut hari ini? Kehilangan pekerjaan? Masalah kesehatan? Hubungan yang retak? Ingatlah, Tuhan menyertai ke manapun engkau pergi. Jangan takut, karena Dia memegang tanganmu.</p>
-                    `,
-                    author: "Renungan Harian®"
-                };
-                
-                document.getElementById('devo-title').textContent = data.title;
-                document.getElementById('devo-verse-ref').textContent = data.verseRef;
-                document.getElementById('devo-verse-text').textContent = `"${data.verseText}"`;
-                document.getElementById('devo-body').innerHTML = data.body;
-                document.getElementById('devo-author').textContent = data.author;
-                
-                loadingEl.classList.add('hidden');
-                contentEl.classList.remove('hidden');
-                
-            } catch (error) {
-                loadingEl.classList.add('hidden');
-                errorEl.classList.remove('hidden');
-            }
-        }
-
-        function retryFetch() {
-            document.getElementById('devotional-error').classList.add('hidden');
-            document.getElementById('devotional-loading').classList.remove('hidden');
-            loadDevotional();
-        }
-
-        function loadFallbackDevotional() {
-            document.getElementById('devotional-error').classList.add('hidden');
-            document.getElementById('devotional-loading').classList.add('hidden');
-            document.getElementById('devotional-content').classList.remove('hidden');
-        }
-
-        function copyVerse() {
-            const verse = document.getElementById('devo-verse-text').textContent;
-            navigator.clipboard.writeText(verse).then(() => {
-                showToast('Ayat berhasil disalin!');
-            });
-        }
-
-        function shareDevotional() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Renungan Embun Pagi',
-                    text: document.getElementById('devo-title').textContent,
-                    url: window.location.href
-                });
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.classList.add('visible');
             } else {
-                showToast('Fitur share tidak tersedia di browser ini');
+                scrollTopBtn.classList.remove('visible');
             }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function toggleLike(btn) {
-            const icon = btn.querySelector('i');
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas', 'text-red-500');
-                showToast('Ditambahkan ke favorit');
-            } else {
-                icon.classList.remove('fas', 'text-red-500');
-                icon.classList.add('far');
-            }
-        }
-
-        // AYAT HARI INI FUNCTIONS
-        function initVerseSection() {
-            const now = new Date();
-            const startOfYear = new Date(now.getFullYear(), 0, 0);
-            const diff = now - startOfYear;
-            const oneDay = 1000 * 60 * 60 * 24;
-            currentVerseIndex = Math.floor(diff / oneDay) % bibleVersesDB.length;
-            
-            displayVerse(currentVerseIndex);
-            generateCalendar();
-        }
-
-        function displayVerse(index) {
-            const verse = bibleVersesDB[index];
-            document.getElementById('daily-verse-text').textContent = `"${verse.text}"`;
-            document.getElementById('daily-verse-ref').textContent = verse.ref;
-            document.getElementById('daily-verse-reflection').textContent = verse.reflection;
-            document.getElementById('daily-theme').textContent = verse.theme;
-            document.getElementById('verse-day-info').textContent = `Hari ke-${verse.day} dari 365`;
-            
-            const prevIndex = (index - 1 + bibleVersesDB.length) % bibleVersesDB.length;
-            const nextIndex = (index + 1) % bibleVersesDB.length;
-            
-            document.getElementById('prev-verse-preview').textContent = 
-                `${bibleVersesDB[prevIndex].ref} - "${bibleVersesDB[prevIndex].text.substring(0, 30)}..."`;
-            document.getElementById('next-verse-preview').textContent = 
-                `${bibleVersesDB[nextIndex].ref} - "${bibleVersesDB[nextIndex].text.substring(0, 30)}..."`;
-        }
-
-        function changeVerse(direction) {
-            currentVerseIndex = (currentVerseIndex + direction + bibleVersesDB.length) % bibleVersesDB.length;
-            displayVerse(currentVerseIndex);
-            
-            document.querySelectorAll('.calendar-day').forEach((day, idx) => {
-                day.classList.toggle('active', idx === currentVerseIndex);
-            });
-        }
-
-        function copyDailyVerse() {
-            const text = document.getElementById('daily-verse-text').textContent + ' - ' + 
-                        document.getElementById('daily-verse-ref').textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Ayat berhasil disalin!');
-            });
-        }
-
-        function shareDailyVerse() {
-            const text = document.getElementById('daily-verse-text').textContent;
-            const ref = document.getElementById('daily-verse-ref').textContent;
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Ayat Hari Ini',
-                    text: `${text} - ${ref}`,
-                    url: window.location.href
-                });
-            } else {
-                showToast('Fitur share tidak tersedia');
-            }
-        }
-
-        function readFullChapter() {
-            const ref = bibleVersesDB[currentVerseIndex].ref;
-            const book = ref.split(' ')[0];
-            window.open(`https://www.bible.com/bible/306/${book}.1.TB`, '_blank');
-        }
-
-        function generateCalendar() {
-            const calendar = document.getElementById('monthly-verse-calendar');
-            const now = new Date();
-            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
-            
-            calendar.innerHTML = '';
-            
-            for (let i = 0; i < firstDay; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'calendar-day other-month';
-                calendar.appendChild(emptyDay);
-            }
-            
-            for (let i = 1; i <= daysInMonth; i++) {
-                const dayEl = document.createElement('div');
-                dayEl.className = 'calendar-day';
-                dayEl.textContent = i;
-                
-                const dayIndex = (currentVerseIndex - now.getDate() + i + bibleVersesDB.length) % bibleVersesDB.length;
-                
-                if (i === now.getDate()) {
-                    dayEl.classList.add('active');
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-                
-                dayEl.onclick = () => {
-                    currentVerseIndex = dayIndex;
-                    displayVerse(currentVerseIndex);
-                    document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('active'));
-                    dayEl.classList.add('active');
-                };
-                
-                calendar.appendChild(dayEl);
-            }
-        }
-
-        // LAGU ROHANI FUNCTIONS - Menggunakan thumbnail YouTube yang bisa diklik
-        function loadWorshipSongs() {
-            const grid = document.getElementById('worship-grid');
-            grid.innerHTML = '';
-            
-            const displaySongs = worshipSongs.slice(currentWorshipIndex, currentWorshipIndex + 4);
-            
-            displaySongs.forEach(song => {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-100 hover:shadow-xl transition-shadow';
-                
-                // Gunakan thumbnail YouTube dengan klik untuk buka video
-                const thumbnailUrl = `https://img.youtube.com/vi/${song.id}/maxresdefault.jpg`;
-                const videoUrl = `https://www.youtube.com/watch?v=${song.id}`;
-                
-                card.innerHTML = `
-                    <div class="video-thumb" 
-                         style="background-image: url('${thumbnailUrl}')" 
-                         onclick="window.open('${videoUrl}', '_blank')"
-                         title="Klik untuk menonton ${song.title}">
-                    </div>
-                    <div class="p-6">
-                        <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full mb-2">${song.category}</span>
-                        <h3 class="font-bold text-lg text-slate-900 mb-1">${song.title}</h3>
-                        <p class="text-slate-500 text-sm">${song.artist}</p>
-                        <button onclick="window.open('${videoUrl}', '_blank')" 
-                                class="mt-3 w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
-                            <i class="fab fa-youtube"></i> Tonton di YouTube
-                        </button>
-                    </div>
-                `;
-                grid.appendChild(card);
             });
-        }
-
-        function rotateWorshipSongs() {
-            currentWorshipIndex = (currentWorshipIndex + 4) % worshipSongs.length;
-            loadWorshipSongs();
-        }
-
-        // DUKUNGAN DOA FUNCTIONS
-        function submitPrayer(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('prayer-name').value;
-            const contact = document.getElementById('prayer-contact').value;
-            const category = document.getElementById('prayer-category').value;
-            const request = document.getElementById('prayer-request').value;
-            
-            const message = `*Permohonan Doa*%0A%0A` +
-                           `*Nama:* ${name}%0A` +
-                           `*Kontak:* ${contact || '-'}%0A` +
-                           `*Kategori:* ${category}%0A%0A` +
-                           `*Permohonan Doa:*%0A${request}%0A%0A` +
-                           `_Dikirim dari Renungan Embun Pagi_`;
-            
-            window.open(`https://wa.me/6281225047599?text=${message}`, '_blank');
-            
-            document.getElementById('prayer-form').classList.add('hidden');
-            document.getElementById('prayer-success').classList.remove('hidden');
-        }
-
-        function resetPrayerForm() {
-            document.getElementById('prayer-form').reset();
-            document.getElementById('prayer-form').classList.remove('hidden');
-            document.getElementById('prayer-success').classList.add('hidden');
-        }
-
-        // UTILITIES
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').textContent = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
+        });
     </script>
 </body>
 </html>
-
