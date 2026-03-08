@@ -1,3 +1,5 @@
+renungan ini apakah auto update setiap tahunnya jika dibaca dari file index.html berikut
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,8 +8,8 @@
     <meta name="description" content="Renungan Embun Pagi - Renungan harian Kristen untuk memperkuat iman">
     <title>Renungan Embun Pagi</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400 ;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css ">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400  ;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css  ">
     
     <style>
         :root {
@@ -575,7 +577,7 @@
         <section class="renungan-daniel" id="renungan">
             <h2><i class="fas fa-book-reader"></i> Daniel: Teguh dalam Iman di Tengah Tekanan</h2>
             
-            <img src="https://kimi-web-img.moonshot.cn/img/media.bible.art/725caf2635f6be2399e2345e5db67ed66abab7af.jpg" alt="Daniel Berdoa Menghadap Yerusalem" class="renungan-image">
+            <img src="https://kimi-web-img.moonshot.cn/img/media.bible.art/725caf2635f6be2399e2345e5db67ed66abab7af.jpg " alt="Daniel Berdoa Menghadap Yerusalem" class="renungan-image">
             
             <h3>1. Arti Nama Daniel</h3>
             <p><strong>Daniel (דָּנִיֵּאל):</strong> "Allah adalah Hakimku" atau "Allah Adalah Pembelaku."</p>
@@ -603,7 +605,7 @@
                 <li><strong>Hasil:</strong> Allah <strong>menyelamatkan Daniel</strong> dari singa, sementara musuhnya dihukum (Daniel 6:18-28).</li>
             </ul>
 
-            <img src="https://kimi-web-img.moonshot.cn/img/www.goodsalt.com/4be4f8d52104c32d64b33b54cf5adf2351c94898.jpg" alt="Daniel Dalam Doa" class="renungan-image">
+            <img src="https://kimi-web-img.moonshot.cn/img/www.goodsalt.com/4be4f8d52104c32d64b33b54cf5adf2351c94898.jpg " alt="Daniel Dalam Doa" class="renungan-image">
 
             <h3>3. Langkah-Langkah Iman Daniel untuk Tetap Kuat di Tengah Tekanan</h3>
 
@@ -637,7 +639,7 @@
                 <strong>Pelajaran:</strong> Hidup yang setia dapat membawa orang lain kepada Allah.
             </div>
 
-            <img src="https://kimi-web-img.moonshot.cn/img/i.ytimg.com/21b4fd8fff43ea552414fce9564ef9b1e770e3fe.jpg" alt="Iman di Tengah Tekanan" class="renungan-image">
+            <img src="https://kimi-web-img.moonshot.cn/img/i.ytimg.com/21b4fd8fff43ea552414fce9564ef9b1e770e3fe.jpg " alt="Iman di Tengah Tekanan" class="renungan-image">
 
             <h3>Renungan Pagi: Keteguhan Iman di Tengah Badai Kehidupan</h3>
             
@@ -787,8 +789,7 @@
                 "Bapa, ajar aku untuk selalu mengingat salib-Mu dan hidup dalam kasih karunia-Mu setiap hari. Amin."
             ];
 
-            const currentYear = new Date().getFullYear();
-            const startDate = new Date(currentYear + '-01-01');
+            const startDate = new Date('2024-01-01');
             
             for (let i = 0; i < 365; i++) {
                 const currentDate = new Date(startDate);
@@ -822,15 +823,11 @@
 
         // Fungsi untuk mendapatkan renungan berdasarkan tanggal
         function getDevotionByDate(date) {
-    const currentYear = new Date().getFullYear();
-    const yearDiff = date.getFullYear() - currentYear;
-    const startOfYear = new Date(date.getFullYear(), 0, 0);
-    const diff = date - startOfYear;
-    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-    // Kombinasi tahun dan hari untuk index unik
-    const index = Math.abs((yearDiff * 365 + dayOfYear)) % fullDatabase.length;
-    return fullDatabase[index];
-}
+            const startOfYear = new Date(date.getFullYear(), 0, 0);
+            const diff = date - startOfYear;
+            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const index = dayOfYear % 365;
+            return fullDatabase[index];
         }
 
         // Fungsi untuk menampilkan renungan
@@ -847,8 +844,7 @@
             // Update konten
             document.getElementById('daily-verse').textContent = devotion.verse;
             document.getElementById('verse-reference').textContent = '— ' + devotion.reference;
-            const currentYear = new Date().getFullYear();
-            document.getElementById('devotion-title').textContent = devotion.title + " (" + currentYear + ")";
+            document.getElementById('devotion-title').textContent = devotion.title;
             document.getElementById('devotion-text').innerHTML = devotion.content;
             document.getElementById('prayer-text').textContent = devotion.prayer;
         }
