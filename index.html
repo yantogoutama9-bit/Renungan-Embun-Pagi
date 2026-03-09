@@ -67,21 +67,6 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Debug console styles */
-        .debug-console {
-            position: fixed; bottom: 20px; right: 20px;
-            width: 400px; max-height: 300px; overflow-y: auto;
-            background: #1c1917; color: #10b981; font-family: monospace;
-            font-size: 12px; padding: 10px; border-radius: 8px;
-            z-index: 9999; display: none;
-        }
-        .debug-toggle {
-            position: fixed; bottom: 20px; right: 20px;
-            width: 40px; height: 40px; background: #d97706;
-            color: white; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center;
-            cursor: pointer; z-index: 10000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
     </style>
 </head>
 <body class="text-stone-800 antialiased">
@@ -119,9 +104,7 @@
         </div>
     </nav>
 
-    <!-- ============================================
-         HALAMAN ARTIKEL 
-         ============================================ -->
+    <!-- HALAMAN ARTIKEL -->
     <div id="page-artikel" class="page-content pt-20">
         <section class="bg-white border-b border-stone-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -151,9 +134,7 @@
         </section>
     </div>
 
-    <!-- ============================================
-         HALAMAN DETAIL ARTIKEL
-         ============================================ -->
+    <!-- HALAMAN DETAIL ARTIKEL -->
     <div id="page-artikel-detail" class="page-content hidden pt-20">
         <div class="bg-stone-50 border-b border-stone-200">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -174,9 +155,7 @@
         </section>
     </div>
 
-    <!-- ============================================
-         HALAMAN RENUNGAN HARIAN (GROQ API)
-         ============================================ -->
+    <!-- HALAMAN RENUNGAN HARIAN -->
     <div id="page-santapan" class="page-content hidden pt-20">
         <section class="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 pb-20">
             <!-- Header -->
@@ -286,7 +265,7 @@
         </section>
     </div>
 
-    <!-- Halaman Tentang & Dukung Doa -->
+    <!-- Halaman Tentang -->
     <div id="page-tentang" class="page-content hidden pt-20">
         <section class="min-h-screen bg-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -325,39 +304,70 @@
         </section>
     </div>
 
+    <!-- Halaman Dukung Doa - EMAIL ANDA -->
     <div id="page-dukung" class="page-content hidden pt-20">
         <section class="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 py-20">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h1 class="serif text-4xl font-bold text-stone-900 mb-4">Dukung Doa</h1>
-                    <p class="text-stone-600 text-lg">Kirimkan permohonan doa Anda.</p>
+                    <p class="text-stone-600 text-lg">Kirimkan permohonan doa Anda. Kami akan berdoa untuk Anda.</p>
                 </div>
                 <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12">
-                    <form onsubmit="handlePrayerSubmit(event)">
+                    <!-- 
+                    ============================================================
+                    BARIS 1: GANTI EMAIL DI SINI
+                    Ganti 'email-anda@gmail.com' dengan email Anda yang sebenarnya
+                    ============================================================
+                    -->
+                    <form action="https://formsubmit.co/yantogoutama9gmail.com" method="POST" onsubmit="handlePrayerSubmit(event)">
+                        <!-- Konfigurasi FormSubmit -->
+                        <input type="hidden" name="_subject" value="Permohonan Doa Baru - Renungan Rohani">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
+                        <!-- Redirect setelah submit -->
+                        <input type="hidden" name="_next" value="https://forisaabadijayasejahtera.github.io/ISLA-Insight/thanks.html">
+                        
                         <div class="grid md:grid-cols-2 gap-6 mb-6">
                             <div>
-                                <label class="block text-sm font-semibold text-stone-700 mb-2">Nama</label>
-                                <input type="text" required class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none">
+                                <label class="block text-sm font-semibold text-stone-700 mb-2">Nama Lengkap</label>
+                                <input type="text" name="nama" required class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none" placeholder="Masukkan nama Anda">
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-stone-700 mb-2">Email</label>
-                                <input type="email" required class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none">
+                                <label class="block text-sm font-semibold text-stone-700 mb-2">Email (opsional)</label>
+                                <input type="email" name="email" class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none" placeholder="email@contoh.com">
                             </div>
                         </div>
                         <div class="mb-6">
-                            <label class="block text-sm font-semibold text-stone-700 mb-2">Permohonan Doa</label>
-                            <textarea required rows="5" class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none"></textarea>
+                            <label class="block text-sm font-semibold text-stone-700 mb-2">Kategori Permohonan</label>
+                            <select name="kategori" required class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none bg-white">
+                                <option value="">Pilih kategori</option>
+                                <option value="Kesembuhan">Kesembuhan</option>
+                                <option value="Pekerjaan">Pekerjaan & Karir</option>
+                                <option value="Keluarga">Keluarga & Pernikahan</option>
+                                <option value="Keuangan">Keuangan</option>
+                                <option value="Pendidikan">Pendidikan</option>
+                                <option value="Umum">Umum</option>
+                            </select>
                         </div>
-                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all">
-                            <i class="fas fa-paper-plane mr-2"></i> Kirim Permohonan
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-stone-700 mb-2">Permohonan Doa</label>
+                            <textarea name="doa" required rows="5" class="w-full px-4 py-3 rounded-xl border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none resize-none" placeholder="Tuliskan permohonan doa Anda di sini..."></textarea>
+                        </div>
+                        <div class="flex items-start gap-3 mb-6">
+                            <input type="checkbox" id="privat" name="privat" value="ya" class="mt-1 w-4 h-4 text-amber-600 rounded focus:ring-amber-500 border-stone-300">
+                            <label for="privat" class="text-sm text-stone-600">Saya ingin permohonan ini tetap privat (tidak dipublikasikan)</label>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-paper-plane"></i> Kirim Permohonan Doa
                         </button>
                     </form>
+                    <!-- AKHIR FORM -->
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Footer -->
+    <!-- Footer - EMAIL ANDA -->
     <footer class="bg-stone-900 text-stone-400 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
@@ -382,37 +392,34 @@
                 <div>
                     <h4 class="text-white font-semibold mb-4">Kontak</h4>
                     <ul class="space-y-2 text-sm">
+                        <!-- 
+                        ============================================================
+                        BARIS 2: GANTI EMAIL DI SINI JUGA
+                        ============================================================
+                        -->
                         <li class="flex items-center gap-2"><i class="fas fa-envelope text-amber-500"></i> ===</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-amber-500"></i> Indonesia</li>
                     </ul>
                 </div>
             </div>
             <div class="border-t border-stone-800 pt-8 text-center text-sm">
-                <p>&copy; 2026 Renungan Rohani Empun Pagi by Ps. Yanto Goutama | Dibuat dengan <i class="fas fa-heart text-red-500 mx-1"></i> untuk kemuliaan Tuhan.</p>
+                <p>&copy; 2026 Renungan Rohani Embun Pagi by Ps. Yanto Goutama | Dibuat dengan <i class="fas fa-heart text-red-500 mx-1"></i> untuk kemuliaan Tuhan.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Debug Toggle -->
-    <div class="debug-toggle" onclick="toggleDebug()" title="Debug Console">
-        <i class="fas fa-bug"></i>
-    </div>
-    <div class="debug-console" id="debugConsole"></div>
-
-    <!-- ============================================
-         JAVASCRIPT - PERBAIKAN SISTEM GROQ API
-         ============================================ -->
+    <!-- JAVASCRIPT -->
     <script>
-        // =====================================================
-        // BARIS 1: GANTI DENGAN API KEY GROQ ANDA
-        // =====================================================
-        const GROQ_API_KEY = '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'; // <-- GANTI INI
+        // ============================================================
+        // BARIS 3: GANTI API KEY GROQ ANDA DI SINI
+        // Contoh: const GROQ_API_KEY = 'gsk_abc123xyz789...';
+        // ============================================================
+        const GROQ_API_KEY = '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';
         
-        // Mode debug - set true untuk melihat log detail
-        const DEBUG_MODE = true;
+        // Mode debug - set false untuk production
+        const DEBUG_MODE = false;
         
-        // =====================================================
-        // DATABASE ARTIKEL
-        // =====================================================
+        // Database Artikel
         const articlesDatabase = [
             {
                 id: 1,
@@ -459,28 +466,18 @@
             }
         ];
 
-        // State Management
+        // State
         let currentDate = new Date();
         let currentFilter = 'all';
         let isOfflineMode = false;
 
-        // Debug Logger
+        // Logger sederhana (tidak ada UI)
         function log(message, type = 'info') {
             if(!DEBUG_MODE) return;
-            const console = document.getElementById('debugConsole');
-            const time = new Date().toLocaleTimeString();
-            const color = type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#10b981';
-            console.innerHTML += `<div style="color: ${color}">[${time}] ${message}</div>`;
-            console.scrollTop = console.scrollHeight;
-            console.style.display = 'block';
+            console.log(`[${type.toUpperCase()}] ${message}`);
         }
 
-        function toggleDebug() {
-            const console = document.getElementById('debugConsole');
-            console.style.display = console.style.display === 'none' ? 'block' : 'none';
-        }
-
-        // Navigation Functions
+        // Navigation
         function showPage(pageName) {
             document.querySelectorAll('.page-content').forEach(page => page.classList.add('hidden'));
             document.getElementById(`page-${pageName}`).classList.remove('hidden');
@@ -506,9 +503,7 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // =====================================================
-        // ARTIKEL FUNCTIONS
-        // =====================================================
+        // Artikel Functions
         function renderArticles() {
             const grid = document.getElementById('articlesGrid');
             const filtered = currentFilter === 'all' ? articlesDatabase : articlesDatabase.filter(a => a.category === currentFilter);
@@ -591,19 +586,17 @@
             navigator.clipboard.writeText(url).then(() => alert('Link disalin!'));
         }
 
-        // =====================================================
-        // GROQ API - RENUNGAN HARIAN (VERSI PERBAIKAN)
-        // =====================================================
+        // Groq API Functions
         async function loadDailyDevotion(forceRefresh = false) {
             log('Memulai loadDailyDevotion...');
             showLoading(true);
             document.getElementById('errorState').classList.add('hidden');
             
-            // Cek cache jika tidak force refresh
+            // Cek cache
             if(!forceRefresh && !isOfflineMode) {
                 const cached = getFromLocalStorage();
                 if(cached) {
-                    log('Menggunakan cache localStorage', 'success');
+                    log('Menggunakan cache localStorage');
                     renderDevotion(cached);
                     showLoading(false);
                     updateStatus('Cache', 'gray');
@@ -612,9 +605,9 @@
             }
             
             // Cek API Key
-            if(GROQ_API_KEY === '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' || !GROQ_API_KEY) {
+            if(!GROQ_API_KEY || GROQ_API_KEY === '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') {
                 log('API Key belum di-set!', 'error');
-                showError('API Key Groq belum dimasukkan. Silakan edit file index.html baris 1.');
+                showError('API Key Groq belum dimasukkan. Silakan edit file index.html baris dengan tulisan "BARIS 3: GANTI API KEY".');
                 useOfflineMode();
                 return;
             }
@@ -622,7 +615,7 @@
             try {
                 log('Mengirim request ke Groq API...');
                 const devotion = await fetchFromGroqAPI();
-                log('Berhasil mendapat response dari API', 'success');
+                log('Berhasil mendapat response dari API');
                 renderDevotion(devotion);
                 saveToLocalStorage(devotion);
                 updateStatus('Live API', 'green');
@@ -649,8 +642,7 @@ Format JSON:
 }
 Gaya: hangat, personal, seperti Santapan Harian. Panjang: 300-400 kata.`;
 
-            log('Sending request to Groq...');
-            
+            // PERBAIKAN: URL tanpa spasi
             const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                 method: 'POST',
                 headers: {
@@ -677,22 +669,17 @@ Gaya: hangat, personal, seperti Santapan Harian. Panjang: 300-400 kata.`;
             }
             
             const data = await response.json();
-            log('Parsing response...');
-            
             const content = data.choices[0].message.content;
-            log(`Raw content: ${content.substring(0, 100)}...`);
             
-            // Parse JSON dari response
+            // Parse JSON
             let parsed;
             try {
-                // Cari JSON di dalam response (kadang ada teks tambahan)
                 const jsonMatch = content.match(/\{[\s\S]*\}/);
                 const jsonStr = jsonMatch ? jsonMatch[0] : content;
                 parsed = JSON.parse(jsonStr);
-                log('JSON parsed successfully', 'success');
+                log('JSON parsed successfully');
             } catch(e) {
                 log(`JSON Parse Error: ${e.message}`, 'error');
-                // Fallback: buat struktur manual dari teks
                 parsed = {
                     title: "Renungan Harian",
                     verse: content.substring(0, 150),
@@ -790,14 +777,14 @@ Gaya: hangat, personal, seperti Santapan Harian. Panjang: 300-400 kata.`;
         function saveToLocalStorage(devotion) {
             localStorage.setItem('dailyDevotion_' + formatDate(currentDate), JSON.stringify(devotion));
             localStorage.setItem('dailyDevotion_date', formatDate(currentDate));
-            log('Saved to localStorage', 'success');
+            log('Saved to localStorage');
         }
 
         function getFromLocalStorage() {
             const today = formatDate(currentDate);
             const saved = localStorage.getItem('dailyDevotion_' + today);
             if(saved) {
-                log('Found cache for today', 'success');
+                log('Found cache for today');
                 return JSON.parse(saved);
             }
             return null;
@@ -805,7 +792,7 @@ Gaya: hangat, personal, seperti Santapan Harian. Panjang: 300-400 kata.`;
 
         function changeDate(days) {
             currentDate.setDate(currentDate.getDate() + days);
-            loadDailyDevotion(true); // Force refresh untuk tanggal baru
+            loadDailyDevotion(true);
         }
 
         function refreshDevotion() {
@@ -845,9 +832,13 @@ Gaya: hangat, personal, seperti Santapan Harian. Panjang: 300-400 kata.`;
         }
 
         function handlePrayerSubmit(e) {
-            e.preventDefault();
-            alert('Doa Anda telah dikirim! Tim doa kami akan berdoa untuk Anda.');
-            e.target.reset();
+            // Form akan submit ke FormSubmit.co
+            // Tidak perlu preventDefault karena kita ingin form benar-benar submit
+            // Tapi kita bisa tambahkan konfirmasi
+            const confirmed = confirm('Permohonan doa Anda akan dikirim. Tuhan Yesus memberkati!');
+            if(!confirmed) {
+                e.preventDefault();
+            }
         }
 
         // Initialization
@@ -872,7 +863,7 @@ Gaya: hangat, personal, seperti Santapan Harian. Panjang: 300-400 kata.`;
                     log('Auto refreshing...');
                     loadDailyDevotion();
                 }
-            }, 3600000); // 1 jam
+            }, 3600000);
         });
 
         window.addEventListener('scroll', () => {
@@ -881,4 +872,3 @@ Gaya: hangat, personal, seperti Santapan Harian. Panjang: 300-400 kata.`;
     </script>
 </body>
 </html>
-
