@@ -1,6 +1,6 @@
 body{
-font-family: "Georgia", serif;
-background:#f5f6fa;
+font-family:Georgia,serif;
+background:#f4f4f4;
 margin:0;
 }
 
@@ -10,9 +10,16 @@ margin:auto;
 padding:40px 20px;
 }
 
+.card{
+background:white;
+padding:25px;
+margin-bottom:20px;
+border-radius:10px;
+box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
+
 h1{
 text-align:center;
-margin-bottom:10px;
 }
 
 #tanggal{
@@ -21,28 +28,8 @@ color:#777;
 margin-bottom:30px;
 }
 
-.card{
-background:white;
-padding:25px;
-margin-bottom:25px;
-border-radius:10px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-}
-
-.card h2{
-margin-top:0;
-color:#333;
-}
-
-#renungan{
-line-height:1.7;
-font-size:17px;
-}
-
 #quote{
 font-style:italic;
-font-size:18px;
-color:#444;
-border-left:4px solid #c9a227;
+border-left:4px solid #c7a24c;
 padding-left:15px;
 }
