@@ -33,6 +33,12 @@ button:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(197,160,89,0.
 .quote small{color:#D4B87A}
 .back-btn{background:#666;margin-bottom:15px}
 .back-btn:hover{background:#555}
+.section-label{font-weight:600;color:#A0833F;margin-top:15px;margin-bottom:5px;font-size:1rem;border-bottom:1px solid #E8D5A0;padding-bottom:5px}
+.ucfm-output{font-family:'Georgia',serif;line-height:1.9}
+.ucfm-output .ucfm-title{font-size:1.2rem;font-weight:700;color:#2C2C2C;margin-bottom:15px;text-align:center;border-bottom:2px solid #C5A059;padding-bottom:10px}
+.ucfm-output .ucfm-section{margin-bottom:15px}
+.ucfm-output .ucfm-section-label{font-weight:600;color:#A0833F;margin-bottom:5px;font-size:0.95rem;text-transform:uppercase;letter-spacing:1px}
+.ucfm-output .ucfm-section-content{padding-left:15px;border-left:3px solid #E8D5A0}
 .footer{text-align:center;padding:30px;color:#999;font-size:0.85rem}
 </style>
 </head>
@@ -49,16 +55,16 @@ button:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(197,160,89,0.
 <div id="mainMenu">
     <div class="menu">
         <div class="menu-card" onclick="showSection('embun')">
-            <h3>Renungan Embun Pagi</h3>
+            <h3>🌅 Renungan Embun Pagi</h3>
             <p>Keterangan singkat + ayat Alkitab yang sesuai dengan kalimat yang Anda berikan.</p>
         </div>
         <div class="menu-card" onclick="showSection('psyanto')">
-            <h3>Renungan Ps Yanto</h3>
+            <h3>📖 Renungan Ps Yanto</h3>
             <p>Judul, doa singkat, dan quotes rohani dari berbagai tokoh teologi.</p>
         </div>
         <div class="menu-card" onclick="showSection('ucfm')">
-            <h3>Renungan UCFM & Shalom</h3>
-            <p>Renungan dalam bahasa Inggris sederhana dengan ayat dan doa.</p>
+            <h3>🌍 Renungan UCFM & Shalom</h3>
+            <p>Daily Devotion format dengan Bible Verse, Reflection, Prayer & Key Reminder.</p>
         </div>
     </div>
 </div>
@@ -66,7 +72,7 @@ button:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(197,160,89,0.
 <!-- Embun Pagi -->
 <div class="section" id="embunSection">
     <button class="back-btn" onclick="goBack()">← Kembali</button>
-    <h2>Renungan Embun Pagi</h2>
+    <h2>🌅 Renungan Embun Pagi</h2>
     <textarea id="embunInput" placeholder="Masukkan kalimat renungan Anda..."></textarea>
     <button onclick="generate('embun')">Buat Renungan</button>
     <div class="result" id="embunResult"></div>
@@ -75,17 +81,17 @@ button:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(197,160,89,0.
 <!-- Ps Yanto -->
 <div class="section" id="psyantoSection">
     <button class="back-btn" onclick="goBack()">← Kembali</button>
-    <h2>Renungan Ps Yanto</h2>
+    <h2>📖 Renungan Ps Yanto</h2>
     <textarea id="psyantoInput" placeholder="Masukkan tema atau isi renungan..."></textarea>
     <button onclick="generate('psyanto')">Buat Renungan</button>
     <div class="result" id="psyantoResult"></div>
 </div>
 
-<!-- UCFM -->
+<!-- UCFM & Shalom -->
 <div class="section" id="ucfmSection">
     <button class="back-btn" onclick="goBack()">← Kembali</button>
-    <h2>Renungan UCFM & Shalom</h2>
-    <textarea id="ucfmInput" placeholder="Enter devotion theme..."></textarea>
+    <h2>🌍 Renungan UCFM & Shalom</h2>
+    <textarea id="ucfmInput" placeholder="Enter your devotion theme or reflection topic..."></textarea>
     <button onclick="generate('ucfm')">Create Devotion</button>
     <div class="result" id="ucfmResult"></div>
 </div>
@@ -108,19 +114,29 @@ const data = {
         {ref:"2 Korintus 12:9",text:"Cukuplah kasih karunia-Ku bagimu, sebab kekuatan-Ku sempurna dalam kelemahan."},
         {ref:"Mazmur 23:1-3",text:"TUHAN adalah gembalaku, takkan kekurangan aku. Ia membaringkan aku di padang yang berumput hijau."},
         {ref:"Yesaya 40:31",text:"Tetapi orang-orang yang menanti-nantikan TUHAN akan mendapat kekuatan baru; mereka akan naik sayap seperti elang."},
-        {ref:"Yohanes 14:27",text:"Damai sejahtera Kutinggalkan bagimu, damai sejahtera-Ku berikan kepadamu."}
+        {ref:"Yohanes 14:27",text:"Damai sejahtera Kutinggalkan bagimu, damai sejahtera-Ku berikan kepadamu."},
+        {ref:"Mazmur 27:1",text:"TUHAN adalah terangku dan keselamatanku, kepada siapakah aku harus takut?"},
+        {ref:"Amsal 3:5-6",text:"Percayalah kepada TUHAN dengan segenap hatimu, dan janganlah bersandar kepada pengertianmu sendiri."},
+        {ref:"Yohanes 16:33",text:"Dalam dunia kamu menderita penganiayaan, tetapi kuatkanlah hatimu, Aku telah mengalahkan dunia."},
+        {ref:"Mazmur 121:1-2",text:"Aku mengangkat mataku ke arah gunung-gunung; dari manakah datangnya pertolonganku? Pertolonganku datang dari TUHAN."},
+        {ref:"Efesus 3:20",text:"Ia sanggup melakukan jauh lebih besar dari pada yang kita doakan atau pikirkan."}
     ],
     engVerses: [
         {ref:"Psalm 46:1",text:"God is our refuge and strength, an ever-present help in trouble."},
         {ref:"Philippians 4:13",text:"I can do all things through Christ who strengthens me."},
         {ref:"Isaiah 41:10",text:"Do not fear, for I am with you; do not be dismayed, for I am your God."},
         {ref:"Matthew 11:28",text:"Come to me, all you who are weary and burdened, and I will give you rest."},
-        {ref:"Jeremiah 29:11",text:"For I know the plans I have for you, declares the LORD, plans to prosper you."},
+        {ref:"Jeremiah 29:11",text:"For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you."},
         {ref:"Romans 8:28",text:"And we know that in all things God works for the good of those who love Him."},
         {ref:"2 Corinthians 12:9",text:"My grace is sufficient for you, for my power is made perfect in weakness."},
-        {ref:"Psalm 23:1-3",text:"The LORD is my shepherd, I lack nothing. He makes me lie down in green pastures."},
+        {ref:"Psalm 23:1-3",text:"The LORD is my shepherd, I lack nothing. He makes me lie down in green pastures, He leads me beside quiet waters."},
         {ref:"Isaiah 40:31",text:"But those who hope in the LORD will renew their strength. They will soar on wings like eagles."},
-        {ref:"John 14:27",text:"Peace I leave with you; my peace I give you."}
+        {ref:"John 14:27",text:"Peace I leave with you; my peace I give you. I do not give to you as the world gives."},
+        {ref:"Psalm 27:1",text:"The LORD is my light and my salvation, whom shall I fear?"},
+        {ref:"Proverbs 3:5-6",text:"Trust in the LORD with all your heart and lean not on your own understanding."},
+        {ref:"John 16:33",text:"In this world you will have trouble. But take heart! I have overcome the world."},
+        {ref:"Psalm 121:1-2",text:"I lift up my eyes to the mountains, where does my help come from? My help comes from the LORD."},
+        {ref:"Ephesians 3:20",text:"Now to Him who is able to do immeasurably more than all we ask or imagine."}
     ],
     theologians: [
         {name:"C.S. Lewis",quote:"Tuhan tidak menjanjikan kehidupan tanpa kesulitan, tapi Dia menjanjikan kekuatan untuk menghadapinya."},
@@ -132,7 +148,12 @@ const data = {
         {name:"J.I. Packer",quote:"Mengenal Tuhan adalah kehidupan kekal, dan setiap hari adalah kesempatan untuk mengenal Dia lebih dalam."},
         {name:"Francis Chan",quote:"Kita terlalu sering puas dengan kekristenan yang aman, sementara Tuhan memanggil kita untuk berani."},
         {name:"Corrie ten Boom",quote:"Tidak ada lubang yang terlalu dalam bagi kasih Tuhan untuk menjangkaunya."},
-        {name:"Oswald Chambers",quote:"Tuhan tidak meminta kita untuk mengerti rencana-Nya, tetapi untuk mempercayai hati-Nya."}
+        {name:"Oswald Chambers",quote:"Tuhan tidak meminta kita untuk mengerti rencana-Nya, tetapi untuk mempercayai hati-Nya."},
+        {name:"N.T. Wright",quote:"Iman tanpa perbuatan adalah mati, karena iman sejati selalu menghasilkan transformasi."},
+        {name:"John Stott",quote:"Kita dipanggil untuk menjadi garam dan terang, bukan untuk menyalahkan kegelapan, melainkan menerangi dunia."},
+        {name:"Dallas Willard",quote:"Disiplin rohani bukanlah beban, melainkan jalan menuju kebebasan sejati."},
+        {name:"Henri Nouwen",quote:"Ketika kita menerima diri kita apa adanya, kita menemukan kebebasan untuk menjadi apa yang Tuhan inginkan."},
+        {name:"Jim Elliot",quote:"Bukan orang bodoh yang memberikan apa yang tidak bisa disimpan untuk mendapatkan apa yang tidak bisa hilang."}
     ],
     engTheologians: [
         {name:"C.S. Lewis",quote:"God does not promise a life without difficulty, but He promises strength to face it."},
@@ -144,24 +165,55 @@ const data = {
         {name:"J.I. Packer",quote:"Knowing God is eternal life, and every day is an opportunity to know Him more deeply."},
         {name:"Francis Chan",quote:"We are too often satisfied with safe Christianity, while God calls us to be bold."},
         {name:"Corrie ten Boom",quote:"There is no pit so deep that God's love is not deeper still."},
-        {name:"Oswald Chambers",quote:"God does not ask us to understand His plan, but to trust His heart."}
+        {name:"Oswald Chambers",quote:"God does not ask us to understand His plan, but to trust His heart."},
+        {name:"N.T. Wright",quote:"Faith without works is dead, because true faith always produces transformation."},
+        {name:"John Stott",quote:"We are called to be salt and light, not to blame the darkness, but to illuminate the world."},
+        {name:"Dallas Willard",quote:"Spiritual disciplines are not a burden, but the path to true freedom."},
+        {name:"Henri Nouwen",quote:"When we accept ourselves as we are, we find freedom to become what God intends."},
+        {name:"Jim Elliot",quote:"He is no fool who gives what he cannot keep to gain what he cannot lose."}
     ],
     prayers: [
         "Ya Tuhan, terima kasih atas kasih setia-Mu hari ini. Berikanlah kami kekuatan untuk menghadapi setiap tantangan dengan iman yang teguh. Amin.",
         "Bapa Surgawi, kami bersyukur atas berkat-Mu yang tak terhitung. Tolonglah kami untuk selalu mengandalkan-Mu dalam setiap langkah hidup kami. Amin.",
         "Tuhan Yesus, saat kami merasa lelah dan putus asa, ingatkanlah kami bahwa Engkau selalu menyertai. Berikanlah damai sejahtera-Mu. Amin.",
         "Allah yang Maha Baik, terima kasih karena rencana-Mu sempurna. Bantu kami untuk percaya kepada-Mu meski jalan terkadang tidak kami mengerti. Amin.",
-        "Roh Kudus, pimpinlah kami dalam kebenaran. Berikanlah hikmat untuk membuat keputusan yang benar. Amin."
+        "Roh Kudus, pimpinlah kami dalam kebenaran. Berikanlah hikmat untuk membuat keputusan yang benar. Amin.",
+        "Ya Bapa, kami serahkan segala kekuatiran kami kepada-Mu. Terima kasih karena Engkau peduli dan selalu menyediakan yang terbaik bagi kami. Amin.",
+        "Tuhan, berkati setiap orang yang kami kasihi. Gunakanlah kami sebagai saluran berkat-Mu di tengah dunia ini. Dalam nama Yesus, amin.",
+        "Allah yang kekal, terima kasih atas anugerah keselamatan yang tak ternilai. Biarlah hidup kami menjadi persembahan yang berkenan di hadapan-Mu. Amin."
     ],
     engPrayers: [
         "Lord, thank You for Your faithfulness today. Give us strength to face every challenge with unwavering faith. Amen.",
-        "Heavenly Father, we are grateful for Your countless blessings. Help us to always depend on You. Amen.",
-        "Lord Jesus, when we feel tired and hopeless, remind us that You are always with us. Give us Your peace. Amen.",
-        "God Most Good, thank You because Your plan is perfect. Help us to trust in You even when the path is unclear. Amen.",
-        "Holy Spirit, lead us in truth. Give us wisdom to make right decisions. Amen."
+        "Heavenly Father, we are grateful for Your countless blessings. Help us to always depend on You in every step of our lives. Amen.",
+        "Lord Jesus, when we feel tired and hopeless, remind us that You are always with us. Give us Your peace that surpasses all understanding. Amen.",
+        "God Most Good, thank You because Your plan is perfect. Help us to trust in You even when the path is sometimes unclear. Amen.",
+        "Holy Spirit, lead us in truth. Give us wisdom to make right decisions and a heart that is always humble. Amen.",
+        "Father, we cast all our anxieties upon You. Thank You because You care and always provide the best for us. Amen.",
+        "Lord, bless everyone we love. Use us as channels of Your blessing in the midst of this world. In Jesus' name, amen.",
+        "Eternal God, thank You for the priceless gift of salvation. May our lives be an offering pleasing in Your sight. Amen."
     ],
-    titles: ["Kekuatan di Dalam Kelemahan","Kasih yang Tak Terbatas","Iman yang Menggerakkan Gunung","Damai dalam Badai","Pengharapan yang Baru","Kasih Karunia yang Mengubah","Kemenangan di Dalam Kristus","Kesabaran yang Membuahkan","Cahaya di Tengah Kegelapan","Keberanian untuk Percaya"],
-    engTitles: ["Strength in Weakness","Unlimited Love","Faith that Moves Mountains","Peace in the Storm","A New Hope","Transforming Grace","Victory in Christ","Patience that Bears Fruit","Light in the Darkness","Courage to Believe"]
+    titles: ["Kekuatan di Dalam Kelemahan","Kasih yang Tak Terbatas","Iman yang Menggerakkan Gunung","Damai dalam Badai","Pengharapan yang Baru","Kasih Karunia yang Mengubah","Kemenangan di Dalam Kristus","Kesabaran yang Membuahkan","Cahaya di Tengah Kegelapan","Keberanian untuk Percaya","Kesetiaan yang Abadi","Sukacita yang Melimpah","Kedamaian yang Melebihi Akal","Harapan yang Tak Pernah Gagal","Anugerah yang Cukup"],
+    engTitles: ["Strength in Weakness","Unlimited Love","Faith that Moves Mountains","Peace in the Storm","A New Hope","Transforming Grace","Victory in Christ","Patience that Bears Fruit","Light in the Darkness","Courage to Believe","Eternal Faithfulness","Abundant Joy","Peace that Surpasses Understanding","Hope that Never Fails","Sufficient Grace"],
+    reflections: [
+        "In our daily walk with God, we often face challenges that seem overwhelming. Yet, this verse reminds us that God's presence is constant and His strength is made perfect in our weakness. Let us embrace this truth and walk boldly in faith.",
+        "Life's journey is filled with unexpected turns, but God's Word assures us that He is always working for our good. When we surrender our plans to Him, we discover a peace that transcends all understanding.",
+        "The world may offer temporary solutions, but true peace comes only from Christ. As we reflect on His promises today, may our hearts be anchored in the unshakeable foundation of His love.",
+        "Every sunrise is a reminder of God's faithfulness. No matter what yesterday held, today is a new opportunity to trust Him more deeply and experience His grace afresh.",
+        "God's love is not based on our performance but on His character. When we rest in this truth, we are freed from the burden of striving and can simply receive His abundant grace.",
+        "The storms of life may rage around us, but our hope remains secure in Christ. He is our refuge and strength, an ever-present help in times of trouble.",
+        "True strength is not found in self-sufficiency but in complete dependence on God. When we acknowledge our weakness, His power is released in and through us.",
+        "God's plans for us are always good, even when we cannot see the full picture. Trusting Him requires faith, but the reward is a life filled with purpose and peace."
+    ],
+    keyReminders: [
+        "God is with you in every circumstance — you are never alone.",
+        "His grace is sufficient for today; don't worry about tomorrow.",
+        "Trust the process — God is working everything for your good.",
+        "Pause and pray before you react to any situation today.",
+        "Your worth is found in Christ, not in your achievements.",
+        "Choose gratitude over complaint — it changes your perspective.",
+        "God's timing is perfect; wait patiently and trust Him.",
+        "Speak life and encouragement to someone today."
+    ]
 };
 
 function showSection(id) {
@@ -179,6 +231,12 @@ function hash(str) {
     let h = 0;
     for(let i = 0; i < str.length; i++) h = ((h << 5) - h) + str.charCodeAt(i);
     return Math.abs(h);
+}
+
+function getTodayDate() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return now.toLocaleDateString('en-US', options);
 }
 
 function generate(type) {
@@ -211,12 +269,48 @@ function generate(type) {
         const t = data.engTitles[seed % data.engTitles.length];
         const v = data.engVerses[seed % data.engVerses.length];
         const p = data.engPrayers[seed % data.engPrayers.length];
+        const r = data.reflections[seed % data.reflections.length];
+        const k = data.keyReminders[seed % data.keyReminders.length];
         const q = data.engTheologians[seed % data.engTheologians.length];
-        html = `<h4>Title: ${t}</h4>
-                <p><strong>${input}</strong> This devotion invites us to reflect on how God works in our daily lives. Every experience is part of God's beautiful plan.</p>
-                <div class="verse">"${v.text}"<br><strong>— ${v.ref}</strong></div>
-                <p><strong>Prayer:</strong> ${p}</p>
-                <div class="quote"><p>"${q.quote}"</p><small>— ${q.name}</small></div>`;
+        const date = getTodayDate();
+        
+        html = `<div class="ucfm-output">
+            <div class="ucfm-title">Daily Devotion — ${date}</div>
+            
+            <div class="ucfm-section">
+                <div class="ucfm-section-label">📖 Bible Verse</div>
+                <div class="ucfm-section-content">
+                    <em>"${v.text}"</em><br>
+                    <strong>— ${v.ref}</strong>
+                </div>
+            </div>
+            
+            <div class="ucfm-section">
+                <div class="ucfm-section-label">💭 Reflection</div>
+                <div class="ucfm-section-content">
+                    ${input} — ${r}
+                </div>
+            </div>
+            
+            <div class="ucfm-section">
+                <div class="ucfm-section-label">🙏 Prayer</div>
+                <div class="ucfm-section-content">
+                    <em>${p}</em>
+                </div>
+            </div>
+            
+            <div class="ucfm-section">
+                <div class="ucfm-section-label">⭐ Key Reminder</div>
+                <div class="ucfm-section-content">
+                    <strong>${k}</strong>
+                </div>
+            </div>
+            
+            <div class="quote" style="margin-top:20px;">
+                <p>"${q.quote}"</p>
+                <small>— ${q.name}</small>
+            </div>
+        </div>`;
     }
     
     resultDiv.innerHTML = html;
